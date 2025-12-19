@@ -920,6 +920,7 @@ console.log('🔄 30分ごとにSNS投稿を自動取得します');
 // ============================================
 // サーバー起動
 // ============================================
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ サーバーが起動しました: http://localhost:${PORT}`);
     console.log(`📁 店舗データ: ${PLACES_FILE}`);
