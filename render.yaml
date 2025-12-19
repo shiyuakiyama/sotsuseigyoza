@@ -1,3 +1,11 @@
 git add render.yaml
 git commit -m "Add Render configuration"
 git push origin main
+services:
+  - type: web
+    name: utsunomiya-guide
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
