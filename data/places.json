@@ -1,0 +1,2009 @@
+[
+  {
+    "id": "gyoza_1",
+    "name": "みんみん 本店",
+    "category": "gyoza",
+    "status": "available",
+    "lat": 36.56156397558114,
+    "lng": 139.8873247427161,
+    "address": "栃木県宇都宮市馬場通り４丁目２−３",
+    "rating": 4.3,
+    "review_count": 1250,
+    "price_range": "¥500-2000",
+    "specialty": "ダブル・スイ・ライス",
+    "stay_time": "30-60分",
+    "menu_photo": "/images/minmin_gyoza.jpg",
+    "realtime_info": "現在の混雑度: 100% | 待ち時間: 0分 | ",
+    "description": "いちばんオーソドックスな宇都宮餃子、胡麻油香る美味しさ。デートの前に食べても大丈夫。一番おいしいんだから。",
+    "google_maps_url": "https://maps.app.goo.gl/S6fkYfyMPbyW5R9H8",
+    "popular_menus": [
+      {
+        "name": "ヤキ(焼餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "スイ(水餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "アゲ(揚餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "ダイブ・スイ・ライス",
+        "price": "¥1360"
+      }
+    ],
+    "last_updated": "2025-12-16T12:43:11.470Z",
+    "today_hours": "10:00〜20:00",
+    "twitter_account": "",
+    "instagram_account": ""
+  },
+  {
+    "status": "busy",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "500~2000",
+    "specialty": "ダブル・スイ・ライス",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "現在の混雑度: 94% | 待ち時間: 0分 | ",
+    "description": "いちばんオーソドックスな宇都宮餃子、胡麻油香る美味しさ。デートの前に食べても大丈夫。一番おいしいんだから。",
+    "google_maps_url": "https://maps.app.goo.gl/xu2RCUTFTvpRmYeo6",
+    "popular_menus": [
+      {
+        "name": "ヤキ(焼餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "スイ(水餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "アゲ(揚餃子)",
+        "price": "¥380"
+      },
+      {
+        "name": "ダイブ・スイ・ライス",
+        "price": "¥1360"
+      }
+    ],
+    "id": "gyoza_2",
+    "name": "宇都宮餃子みんみん　宿郷店",
+    "category": "gyoza",
+    "lat": 36.55578,
+    "lng": 139.906848,
+    "address": "栃木県宇都宮市東宿郷３丁目１３−６",
+    "last_updated": "2025-12-18T12:36:39.169Z",
+    "today_hours": "10:00〜20:00",
+    "twitter_account": "",
+    "instagram_account": ""
+  },
+  {
+    "id": "gyoza_3",
+    "name": "来らっせ　本店",
+    "category": "gyoza",
+    "status": "busy",
+    "lat": 36.56076728649268,
+    "lng": 139.88504298110615,
+    "address": "栃木県宇都宮市馬場通り２丁目３−１２ ＭＥＧＡドン・キホーテ ラパーク宇都宮店 地下１階",
+    "rating": 4.6,
+    "review_count": 3200,
+    "price_range": "¥1000-2000",
+    "specialty": "あなたの好きなように",
+    "stay_time": "60-90分",
+    "today_hours": "10:00〜20:00",
+    "menu_photo": "/images/kirasse_gyoza.jpg",
+    "realtime_info": "7店舗営業中 | 待ち時間約10分",
+    "description": "複数店舗の餃子を一度に楽しめる餃子テーマパーク。",
+    "google_maps_url": "https://maps.app.goo.gl/heR7FhAyHyrj8Fys9",
+    "popular_menus": [
+      {
+        "name": "常設5店舗",
+        "price": "日替わり30種類"
+      }
+    ]
+  },
+  {
+    "status": "busy",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "あなたの好きなように",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "現在の混雑度: 20% | 待ち時間: 0分 | ",
+    "description": "複数店舗の餃子を一度に楽しめる餃子テーマパーク。",
+    "google_maps_url": "https://maps.app.goo.gl/fZ5DE7oJDHCErkvYA",
+    "popular_menus": [
+      {
+        "name": "常設5店舗",
+        "price": "日替わり30種類"
+      }
+    ],
+    "id": "gyoza_4",
+    "name": "宇都宮きらっせ　パセオ店",
+    "category": "gyoza",
+    "lat": 36.5593,
+    "lng": 139.89818,
+    "address": "栃木県宇都宮市川向町１−２３ 宇都宮パセオ ２階 とちぎグランマルシェ内",
+    "last_updated": "2025-12-07T06:37:27.875Z",
+    "today_hours": "11:00〜20:00",
+    "twitter_account": "",
+    "instagram_account": ""
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "500~2000",
+    "specialty": "焼きセット",
+    "stay_time": "30~60",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "旨味のニンニク爆弾ここに炸裂！",
+    "google_maps_url": "https://maps.app.goo.gl/su9NoKC2jxkWKzxC8",
+    "popular_menus": [
+      {
+        "name": "特製肉餃子",
+        "price": "￥430"
+      },
+      {
+        "name": "ジャンボ餃子",
+        "price": "￥520"
+      }
+    ],
+    "id": "gyoza_5",
+    "name": "悟空",
+    "today_hours": "11:00〜20:00",
+    "category": "gyoza",
+    "lat": 36.56161575045047,
+    "lng": 139.88749590638002,
+    "address": "宇都宮市馬場通り4-2-4"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "300~1000",
+    "specialty": "餃子饂飩",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "ここにある！コクと食感の新境地",
+    "google_maps_url": "https://maps.app.goo.gl/cs1oMDWdwCEGqjZSA",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥250"
+      },
+      {
+        "name": "ラーメン",
+        "price": "￥450"
+      }
+    ],
+    "id": "gyoza_6",
+    "name": "味一番",
+    "today_hours": "11:00〜14:00　17:00~19:00",
+    "category": "gyoza",
+    "lat": 36.56052,
+    "lng": 139.882818,
+    "address": "宇都宮市江野町2-7"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "500~1000",
+    "specialty": "焼餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餃子に安らぎを覚えたことはあるか？",
+    "google_maps_url": "https://maps.app.goo.gl/EacHqGWhvqwcAjpc7",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥350"
+      },
+      {
+        "name": "揚餃子",
+        "price": "￥350"
+      }
+    ],
+    "id": "gyoza_7",
+    "name": "香蘭",
+    "category": "gyoza",
+    "lat": 36.562723,
+    "lng": 139.882391,
+    "address": "宇都宮市本町1-24",
+    "today_hours": "11:30〜20:00"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "羽根付餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "飛ぶ羽根は持っている、あとは食うだけ",
+    "google_maps_url": "https://maps.app.goo.gl/JMELjoeJUWGAD5dz9",
+    "popular_menus": [
+      {
+        "name": "羽根付餃子",
+        "price": "￥385"
+      },
+      {
+        "name": "オリジナル担々麺",
+        "price": "￥1045"
+      }
+    ],
+    "id": "gyoza_8",
+    "name": "めんめん",
+    "today_hours": "11:30〜14:30　17:00~21:00",
+    "category": "gyoza",
+    "lat": 36.558708,
+    "lng": 139.887828,
+    "address": "栃木県宇都宮市二荒町5-11"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~2000",
+    "specialty": "寿限無餃子",
+    "stay_time": "30～60分",
+    "today_hours": "11:00〜14:30　17:00~22:00",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "特製酢が勝利のカギ！来たる餃子の巨人！",
+    "google_maps_url": "https://maps.app.goo.gl/LuQNRn9QwvJxaWom6",
+    "popular_menus": [
+      {
+        "name": "寿限無餃子",
+        "price": "￥390"
+      },
+      {
+        "name": "宮牛包",
+        "price": "￥600"
+      }
+    ],
+    "id": "gyoza_9",
+    "name": "寿限無",
+    "category": "gyoza",
+    "lat": 36.561017,
+    "lng": 139.885041,
+    "address": "栃木県宇都宮市馬場通り2-3-5バンビル1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "ゆずラーメン",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "ニンニクが苦手かい？生姜、香ってるよ",
+    "google_maps_url": "https://maps.app.goo.gl/XRKUeWy9yke9Udv97",
+    "popular_menus": [
+      {
+        "name": "焼き餃子",
+        "price": "￥253"
+      },
+      {
+        "name": "ゆずラーメン",
+        "price": "￥715"
+      }
+    ],
+    "id": "gyoza_10",
+    "name": "ぎょうざの笑平",
+    "category": "gyoza",
+    "lat": 36.562604,
+    "lng": 139.861592,
+    "address": "宇都宮市睦町6-11"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "焼餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "もちもちに魂を奪われろ",
+    "google_maps_url": "https://maps.app.goo.gl/jzJrk5s1vAW3KF5f6",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥600"
+      },
+      {
+        "name": "水餃子",
+        "price": "￥600"
+      }
+    ],
+    "id": "gyoza_11",
+    "name": "餃天堂",
+    "category": "gyoza",
+    "lat": 36.55857,
+    "lng": 139.89753,
+    "address": "宇都宮市池上町1-11"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2500",
+    "specialty": "Cセット（餃子、ラーメンセット）",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餃子の真骨頂！押し寄せる辛さと美味さ！",
+    "google_maps_url": "https://maps.app.goo.gl/rfezn4Qzrb4oNzmU8",
+    "popular_menus": [
+      {
+        "name": "餃子定食",
+        "price": "￥660"
+      },
+      {
+        "name": "Cセット(餃子、ラーメンセット)",
+        "price": "￥900"
+      }
+    ],
+    "id": "gyoza_12",
+    "name": "中国料理 香蘭",
+    "category": "gyoza",
+    "lat": 36.551182,
+    "lng": 139.884225,
+    "address": "宇都宮市旭2-16-11"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "選べるW餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餃子の魅力って、ここに詰まってたんだ",
+    "google_maps_url": "https://maps.app.goo.gl/TDd8mXMzDuF8pXg8A",
+    "popular_menus": [
+      {
+        "name": "ラーメンセット",
+        "price": "￥860"
+      },
+      {
+        "name": "ビールセット",
+        "price": "￥860"
+      }
+    ],
+    "id": "gyoza_13",
+    "name": "豚嘻嘻",
+    "category": "gyoza",
+    "lat": 36.561606,
+    "lng": 139.886972,
+    "address": "宇都宮市馬場通り4-2-3"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "豚トロチャーシュー味噌ラーメン",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "相棒はラーメン、贅沢すぎる旨さの道化！",
+    "google_maps_url": "https://maps.app.goo.gl/R96Mv4V7BTMLYzzf7",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥418"
+      },
+      {
+        "name": "満点味噌ラーメン",
+        "price": "￥880"
+      }
+    ],
+    "id": "gyoza_14",
+    "name": "満天屋 本店",
+    "category": "gyoza",
+    "lat": 36.535941,
+    "lng": 139.898561,
+    "address": "宇都宮市下栗町1-11-8"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "満天味噌らーめん+餃子4ケ",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "相棒はラーメン、贅沢すぎる旨さの道化！",
+    "google_maps_url": "https://maps.google.com/?q=36.559446,139.898176",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥418"
+      },
+      {
+        "name": "満点味噌ラーメン",
+        "price": "￥1034"
+      }
+    ],
+    "id": "gyoza_15",
+    "name": "満天屋 宇都宮パセオ店",
+    "category": "gyoza",
+    "lat": 36.5595,
+    "lng": 139.898176,
+    "address": "宇都宮市川向町1-23"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "500~1500",
+    "specialty": "健太餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餡が餃子を作る。俺が餡を創る。",
+    "google_maps_url": "https://maps.app.goo.gl/1GmXyugvU35xgHpV8",
+    "popular_menus": [
+      {
+        "name": "8種食べくらべ",
+        "price": "￥680"
+      },
+      {
+        "name": "特製健太ラーメン",
+        "price": "￥1000"
+      }
+    ],
+    "id": "gyoza_16",
+    "name": "宇都宮餃子館 西口駅前中央店",
+    "category": "gyoza",
+    "lat": 36.559065,
+    "lng": 139.89719,
+    "address": "宇都宮市駅前通り3-1-5"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "健太餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "現在の混雑度: 50% | 待ち時間: 0分 | ",
+    "description": "餡が餃子を作る。俺が餡を創る。",
+    "google_maps_url": "https://maps.app.goo.gl/4KbQd7gdSRHFm3Uz5",
+    "popular_menus": [
+      {
+        "name": "健太餃子",
+        "price": "￥310"
+      },
+      {
+        "name": "特製担々麺",
+        "price": "￥920"
+      }
+    ],
+    "id": "gyoza_17",
+    "name": "宇都宮餃子館 東口店",
+    "category": "gyoza",
+    "lat": 36.55983,
+    "lng": 139.90133,
+    "address": "宇都宮市東宿郷1-9-1",
+    "last_updated": "2025-12-09T04:55:23.336Z",
+    "today_hours": "10:00〜21:00",
+    "twitter_account": "Gyozakai_u",
+    "instagram_account": ""
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "健太餃子とラーメン",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餡が餃子を作る。俺が餡を創る。",
+    "google_maps_url": "https://maps.app.goo.gl/E1Rf5KjuYwxSiyZd8",
+    "popular_menus": [
+      {
+        "name": "健太餃子",
+        "price": "￥310"
+      },
+      {
+        "name": "ちょっと一杯セット",
+        "price": "￥1270"
+      }
+    ],
+    "id": "gyoza_18",
+    "name": "宇都宮餃子館 パセオ店",
+    "category": "gyoza",
+    "lat": 36.55941,
+    "lng": 139.898148,
+    "address": "宇都宮市川向町1-23"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "健太餃子とラーメン",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "餡が餃子を作る。俺が餡を創る。",
+    "google_maps_url": "https://maps.app.goo.gl/Gx4UVtBdoMBSEHYL8",
+    "popular_menus": [
+      {
+        "name": "健太餃子",
+        "price": "￥310"
+      },
+      {
+        "name": "ちょっと一杯セット",
+        "price": "￥1270"
+      }
+    ],
+    "id": "gyoza_19",
+    "name": "宇都宮餃子館 健太餃子店",
+    "category": "gyoza",
+    "lat": 36.558431,
+    "lng": 139.897571,
+    "address": "宇都宮市東宿郷1-9-1"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "焼餃子",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "貫禄はまさに裏ボス！殿堂に触れてみろ",
+    "google_maps_url": "https://maps.app.goo.gl/txVDDEoqjkYo28B27",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥280"
+      },
+      {
+        "name": "水餃子",
+        "price": "￥280"
+      }
+    ],
+    "id": "gyoza_20",
+    "name": "ぎょうざ専門店正嗣 宮島町本店",
+    "category": "gyoza",
+    "lat": 36.561592,
+    "lng": 139.887682,
+    "address": "栃木県宇都宮市馬場通り4-3-1"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "冷凍生餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "貫禄はまさに裏ボス！殿堂に触れてみろ",
+    "google_maps_url": "https://maps.app.goo.gl/McHZYr5Sp9Tm5XDP8",
+    "popular_menus": [
+      {
+        "name": "冷凍生餃子",
+        "price": "￥220"
+      }
+    ],
+    "id": "gyoza_21",
+    "name": "テイクアウト専門正嗣 簗瀬店",
+    "category": "gyoza",
+    "lat": 36.55163,
+    "lng": 139.897032,
+    "address": "宇都宮市簗瀬3-34-3"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "ジャンボびっくり餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "これが聳え立つ餃子の違法建築",
+    "google_maps_url": "https://maps.app.goo.gl/gTf6ntb6dUPxrecGA",
+    "popular_menus": [
+      {
+        "name": "びっくり餃子",
+        "price": "￥550"
+      },
+      {
+        "name": "中華飯セット",
+        "price": "￥800"
+      }
+    ],
+    "id": "gyoza_22",
+    "name": "中華トントン",
+    "category": "gyoza",
+    "lat": 36.557842,
+    "lng": 139.914812,
+    "address": "宇都宮市東今泉1-1-42"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "チャーシュー麺（醤油味）",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "ウチ来るかい？何が餃子か教えてやるよ",
+    "google_maps_url": "https://maps.app.goo.gl/BoXCaPLqNC8Wpehy7",
+    "popular_menus": [
+      {
+        "name": "チャーシュー麺",
+        "price": "￥980"
+      },
+      {
+        "name": "餃子",
+        "price": "￥400"
+      }
+    ],
+    "id": "gyoza_23",
+    "name": "自家製麺★餃子 こむさし",
+    "category": "gyoza",
+    "lat": 36.553746,
+    "lng": 139.902962,
+    "address": "宇都宮市宿郷5-2-1成和ビル1階"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "焼餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "食べて知れ！ニラの旨さとハーモニー！",
+    "google_maps_url": "https://maps.app.goo.gl/qKLPpHaHEdv5SWXN9",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥450"
+      },
+      {
+        "name": "中華そば",
+        "price": "￥720"
+      }
+    ],
+    "id": "gyoza_24",
+    "name": "栃木軒",
+    "category": "gyoza",
+    "lat": 36.574921,
+    "lng": 139.900867,
+    "address": "宇都宮市竹林町892-5"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "龍門餃子",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "食べる美術品！洗練された味覚の芸術家",
+    "google_maps_url": "https://maps.app.goo.gl/4csLQFFwNkWzgdwP9",
+    "popular_menus": [
+      {
+        "name": "龍門餃子",
+        "price": "￥360"
+      },
+      {
+        "name": "七色餃子",
+        "price": "￥1100"
+      }
+    ],
+    "id": "gyoza_25",
+    "name": "ぎょうざの龍門 本店",
+    "category": "gyoza",
+    "lat": 36.577446,
+    "lng": 139.919639,
+    "address": "宇都宮市御幸町154-2"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "龍門餃子",
+    "stay_time": "30-60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "食べる美術品！洗練された味覚の芸術家",
+    "google_maps_url": "https://maps.app.goo.gl/APmTiiSARbjkFWAw8",
+    "popular_menus": [
+      {
+        "name": "龍門餃子",
+        "price": "￥360"
+      },
+      {
+        "name": "七色餃子",
+        "price": "￥1100"
+      }
+    ],
+    "id": "gyoza_26",
+    "name": "ぎょうざの龍門 MEGAドン・キホーテ ラパーク宇都宮店",
+    "category": "gyoza",
+    "lat": 36.560748,
+    "lng": 139.885412,
+    "address": ""
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2500",
+    "specialty": "至高のニンニク餃子",
+    "stay_time": "0",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "宇都宮を知りたいって？まずは、これだ",
+    "google_maps_url": "https://maps.app.goo.gl/ixXuL2RyTXZqyTkB7",
+    "popular_menus": [
+      {
+        "name": "元祖　八幡餃子(32粒)",
+        "price": "￥1000"
+      },
+      {
+        "name": "至高のニンニク餃子(16粒)",
+        "price": "￥600"
+      }
+    ],
+    "id": "gyoza_27",
+    "name": "八幡餃子 本店",
+    "category": "gyoza",
+    "lat": 36.562218,
+    "lng": 139.862997,
+    "address": "宇都宮市ゆいの杜3-3-33"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2500",
+    "specialty": "至高のニンニク餃子",
+    "stay_time": "0",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "宇都宮を知りたいって？まずは、これだ",
+    "google_maps_url": "https://maps.app.goo.gl/orfehHTvno3kisXj8",
+    "popular_menus": [
+      {
+        "name": "元祖　八幡餃子(32粒)",
+        "price": "￥1000"
+      },
+      {
+        "name": "至高のニンニク餃子(16粒)",
+        "price": "￥600"
+      }
+    ],
+    "id": "gyoza_28",
+    "name": "八幡餃子 宇都宮元今泉店",
+    "category": "gyoza",
+    "lat": 36.56267,
+    "lng": 139.906103,
+    "address": "栃木県宇都宮市元今泉３丁目２−７"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2500",
+    "specialty": "至高のニンニク餃子",
+    "stay_time": "0",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "宇都宮を知りたいって？まずは、これだ",
+    "google_maps_url": "https://maps.app.goo.gl/VytE7VhYeFZ3V9zE7",
+    "popular_menus": [
+      {
+        "name": "元祖　八幡餃子(32粒)",
+        "price": "￥1000"
+      },
+      {
+        "name": "至高のニンニク餃子(16粒)",
+        "price": "￥600"
+      }
+    ],
+    "id": "gyoza_29",
+    "name": "八幡餃子 宇都宮峰店",
+    "category": "gyoza",
+    "lat": 36.554361,
+    "lng": 139.91003,
+    "address": "栃木県宇都宮市峰1-8-25"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "餃子定食 ダブル（12個）",
+    "stay_time": "30~60",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "疲れた身体に染み込むぞ、癒しの回復餃子",
+    "google_maps_url": "https://maps.app.goo.gl/kJedcuyRaJPiiPUb6",
+    "popular_menus": [
+      {
+        "name": "餃子定食　ダブル(12個)",
+        "price": "￥980"
+      },
+      {
+        "name": "串カツランチ",
+        "price": "￥920"
+      }
+    ],
+    "id": "gyoza_30",
+    "name": "餃子会館 本店",
+    "category": "gyoza",
+    "lat": 36.567913,
+    "lng": 139.926666,
+    "address": "宇都宮市越戸4-4-36"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "スペシャル焼きそば",
+    "stay_time": "30",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "疲れた身体に染み込むぞ、癒しの回復餃子",
+    "google_maps_url": "https://maps.app.goo.gl/n2GaBeyDmyT8Nr9c7",
+    "popular_menus": [
+      {
+        "name": "スペシャル焼そば",
+        "price": "￥850"
+      },
+      {
+        "name": "肉焼きそば",
+        "price": "￥680"
+      }
+    ],
+    "id": "gyoza_31",
+    "name": "千代宇都宮焼きそば＆餃子会館",
+    "category": "gyoza",
+    "lat": 36.560317,
+    "lng": 139.883416,
+    "address": "栃木県宇都宮市江野町1-8"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "さつき餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "野菜の甘みと香るニンニク、王道に咲く！",
+    "google_maps_url": "https://maps.app.goo.gl/mEKVR48poLX1Sqai6",
+    "popular_menus": [
+      {
+        "name": "さつき餃子",
+        "price": "¥350"
+      },
+      {
+        "name": "オールスター餃子",
+        "price": "￥520"
+      }
+    ],
+    "id": "gyoza_32",
+    "name": "宇都宮餃子 さつき 徳次郎本店",
+    "category": "gyoza",
+    "lat": 36.649955,
+    "lng": 139.846265,
+    "address": "宇都宮市徳次郎町190-4"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "焼餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "黄金スープに浮かび来る、異界からの来訪！",
+    "google_maps_url": "https://maps.app.goo.gl/xLohHCESRwyoY8XY7",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥290"
+      },
+      {
+        "name": "水餃子",
+        "price": "￥390"
+      }
+    ],
+    "id": "gyoza_33",
+    "name": "幸楽",
+    "category": "gyoza",
+    "lat": 36.580585,
+    "lng": 139.842029,
+    "address": "宇都宮市宝木町2-864-4"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~2000",
+    "specialty": "四季餃子",
+    "stay_time": "30～60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "春夏秋冬が踊り狂う、鮮やかな旨味の輪舞曲",
+    "google_maps_url": "https://maps.app.goo.gl/9DnuK5HjnDts3QB78",
+    "popular_menus": [
+      {
+        "name": "四季餃子",
+        "price": "￥450"
+      },
+      {
+        "name": "タンメン",
+        "price": "¥750"
+      }
+    ],
+    "id": "gyoza_34",
+    "name": "桃泉楼",
+    "category": "gyoza",
+    "lat": 36.603954,
+    "lng": 139.951637,
+    "address": "栃木県宇都宮市中岡本町2073-9"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1000",
+    "specialty": "冷凍生餃子（肉/10個）",
+    "stay_time": "10",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "冷凍餃子の可能性！お前が餃子を旨くする！",
+    "google_maps_url": "https://maps.app.goo.gl/Ni2WWRmLDVJbiiQRA",
+    "popular_menus": [
+      {
+        "name": "冷凍生餃子(肉)",
+        "price": "￥410"
+      },
+      {
+        "name": "冷凍生餃子(野菜)",
+        "price": "￥410"
+      }
+    ],
+    "id": "gyoza_35",
+    "name": "(有)アトム 本店",
+    "category": "gyoza",
+    "lat": 36.500073,
+    "lng": 139.868085,
+    "address": "宇都宮市若松原1-17-31"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "焼餃子",
+    "specialty": "濃厚鶏白湯らぁめん",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "香辛料の芸術！その奥に宿る確かな獣性！",
+    "google_maps_url": "https://maps.app.goo.gl/emv3s1MAUJEA5Rg26",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥450"
+      },
+      {
+        "name": "濃厚鶏白湯らぁめん(塩・醤油)",
+        "price": "￥900"
+      }
+    ],
+    "id": "gyoza_36",
+    "name": "麺や しみず",
+    "category": "gyoza",
+    "lat": 36.492443,
+    "lng": 139.916142,
+    "address": "宇都宮市西刑部町2740-10"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~1500",
+    "specialty": "焼餃子",
+    "stay_time": "30~60分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "ラーメンとの合わせ技、君に見せてあげるよ",
+    "google_maps_url": "https://maps.app.goo.gl/thTmHqLvr2qiDir57",
+    "popular_menus": [
+      {
+        "name": "焼餃子",
+        "price": "￥310"
+      },
+      {
+        "name": "あごだしラーメン",
+        "price": "￥660"
+      }
+    ],
+    "id": "gyoza_37",
+    "name": "餃子処 konomi",
+    "category": "gyoza",
+    "lat": 36.563378,
+    "lng": 139.814179,
+    "address": "宇都宮市飯田町261"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "2000~3000",
+    "specialty": "貴妃餃子",
+    "stay_time": "60~90",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "本格中国料理、本場の味に慄け！",
+    "google_maps_url": "https://maps.app.goo.gl/aDtoawzAmLm3NF2R8",
+    "popular_menus": [
+      {
+        "name": "貴妃餃子",
+        "price": "￥1078"
+      },
+      {
+        "name": "鍋包肉",
+        "price": "￥880"
+      }
+    ],
+    "id": "gyoza_39",
+    "name": "中国料理 遼順茶楼 宇都宮駅東口店",
+    "category": "gyoza",
+    "lat": 36.557124,
+    "lng": 139.900979,
+    "address": "宇都宮市東宿郷2-10-12"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~2000",
+    "specialty": "ニンニク多目ニラ餃子",
+    "stay_time": "30~60",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "あなたを包み込む家の味、故郷はここにあるぞ！",
+    "google_maps_url": "https://maps.app.goo.gl/7zRSUzqD24xSnkg8A",
+    "popular_menus": [
+      {
+        "name": "ニンニク多目ニラ餃子",
+        "price": "￥352"
+      },
+      {
+        "name": "ニラ餃子",
+        "price": "￥297"
+      }
+    ],
+    "id": "gyoza_40",
+    "name": "高橋餃子店",
+    "category": "gyoza",
+    "lat": 36.609808,
+    "lng": 139.812622,
+    "address": "宇都宮市田下町455"
+  },
+  {
+    "id": "cocktail_1",
+    "name": "夢酒OGAWA",
+    "category": "cocktail",
+    "status": "available",
+    "lat": 36.562612,
+    "lng": 139.88018,
+    "address": "栃木県宇都宮市泉町２−１９",
+    "rating": 4.5,
+    "review_count": 890,
+    "price_range": "¥3000~5000",
+    "specialty": "cocktail",
+    "stay_time": "60-180分",
+    "menu_photo": "/images/ogawa_cocktail.jpg",
+    "realtime_info": "カウンター席あり",
+    "description": "日本一を経験したムッシュが作る、至高の一杯",
+    "google_maps_url": "https://maps.app.goo.gl/z4h4x7UUD4HyE3Ek9",
+    "popular_menus": [
+      {
+        "name": "フローラオブゴールド",
+        "price": "？？？？"
+      }
+    ]
+  },
+  {
+    "id": "cocktail_2",
+    "name": "SUKATTO",
+    "category": "cocktail",
+    "status": "available",
+    "lat": 36.561338,
+    "lng": 139.883364,
+    "address": "栃木県宇都宮市池上町１−３ 蒲生ビル 2F",
+    "rating": 4.2,
+    "review_count": 567,
+    "price_range": "¥4000-5000",
+    "specialty": "隠れ家カクテル",
+    "stay_time": "60-180分",
+    "menu_photo": "/images/sukatto_cocktail.jpg",
+    "realtime_info": "",
+    "description": "神業の達人、お見せしよう",
+    "google_maps_url": "httｗps://maps.app.goo.gl/Xpec1J7t7kJRuynV7",
+    "popular_menus": [
+      {
+        "name": "コンテストカクテル",
+        "price": "¥1,000"
+      }
+    ]
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "6000~8000",
+    "specialty": "",
+    "stay_time": "60~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "隠れ家的存在、君の一杯がここで変わる",
+    "google_maps_url": "https://maps.app.goo.gl/ezRbYTJRfrjEt1ab9",
+    "popular_menus": [],
+    "id": "cocktail_3",
+    "name": "アズ・タイム・ゴーズ・バイ",
+    "category": "cocktail",
+    "lat": 36.562773,
+    "lng": 139.879917,
+    "address": "栃木県宇都宮市泉町2-21 英鎮ビル 1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "",
+    "specialty": "タイムとレモングラスのジントニック",
+    "stay_time": "",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "本格ショットバー、アナタも如何が？",
+    "google_maps_url": "https://maps.app.goo.gl/RzWwUgKvHySxMFWm9",
+    "popular_menus": [],
+    "id": "cocktail_4",
+    "name": "バー相葉",
+    "category": "cocktail",
+    "lat": 36.562571,
+    "lng": 139.880809,
+    "address": "栃木県宇都宮市泉町2-15　大草ビル1F南"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/nCUiZXcfqzSeTEMa7",
+    "popular_menus": [],
+    "id": "cocktail_5",
+    "name": "BAR George",
+    "category": "cocktail",
+    "lat": 36.560993,
+    "lng": 139.880394,
+    "address": "栃木県宇都宮市江野町6-4 いさみビル B1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~3000",
+    "specialty": "",
+    "stay_time": "",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/qUp8APbkMWVEAghj6",
+    "popular_menus": [],
+    "id": "cocktail_6",
+    "name": "パイプのけむり　アオキ",
+    "category": "cocktail",
+    "lat": 36.560757,
+    "lng": 139.8803,
+    "address": "栃木県宇都宮市江野町井上ビル ４F６-６"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/4PoWpEGU3S3SSaM88",
+    "popular_menus": [],
+    "id": "cocktail_7",
+    "name": "BAR CRAIC",
+    "category": "cocktail",
+    "lat": 36.56021,
+    "lng": 139.880999,
+    "address": "栃木県宇都宮市江野町7-2 トキタヤビル 2F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "~5000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/G4dx6dr7sg4Y3qu77",
+    "popular_menus": [],
+    "id": "cocktail_8",
+    "name": "ＨＡＲＵパイプのけむり",
+    "category": "cocktail",
+    "lat": 36.563014,
+    "lng": 139.8818,
+    "address": "栃木県宇都宮市本町７−７ ベルグランデ 1-B"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/u83yR26doYVAVHQMA",
+    "popular_menus": [],
+    "id": "cocktail_9",
+    "name": "BAR KHAN",
+    "category": "cocktail",
+    "lat": 36.562541,
+    "lng": 139.88167,
+    "address": "宇都宮市本町6-9 薄井ビル 2F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/RRCuqTTWPZHpVa3A8",
+    "popular_menus": [],
+    "id": "cocktail_10",
+    "name": "BAR Kikyo",
+    "category": "cocktail",
+    "lat": 36.562399,
+    "lng": 139.882063,
+    "address": "栃木県宇都宮市本町４−１ マホロバC館 1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4,000～6,000",
+    "specialty": "",
+    "stay_time": "",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/RpGiVUopnqbaJudy5",
+    "popular_menus": [],
+    "id": "cocktail_11",
+    "name": "HIRO:Z",
+    "category": "cocktail",
+    "lat": 36.562342,
+    "lng": 139.882164,
+    "address": "栃木県宇都宮市本町４−１"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/GzXZiBeHWSBefTSU7",
+    "popular_menus": [],
+    "id": "cocktail_12",
+    "name": "パイプのけむり 池上町店",
+    "category": "cocktail",
+    "lat": 36.561376,
+    "lng": 139.882335,
+    "address": "栃木県宇都宮市本町7-7 ベルグランデ 1-B"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "5000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/JgSXJtYj74joNgVE8",
+    "popular_menus": [],
+    "id": "cocktail_13",
+    "name": "BAR YAMANOI",
+    "category": "cocktail",
+    "lat": 36.5606,
+    "lng": 139.88283,
+    "address": "栃木県宇都宮市江野町2-6 高橋ビル2Ｆ"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "5000~7000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/vrSgf5GrLb1a1kb87",
+    "popular_menus": [],
+    "id": "cocktail_14",
+    "name": "MOO|ムー",
+    "category": "cocktail",
+    "lat": 36.560655,
+    "lng": 139.88289,
+    "address": "栃木県宇都宮市江野町２−６"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "5000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/yGq3GXEa2Yu1C2SS7",
+    "popular_menus": [],
+    "id": "cocktail_15",
+    "name": "バー・シャモニー",
+    "category": "cocktail",
+    "lat": 36.560079,
+    "lng": 139.8833,
+    "address": "栃木県宇都宮市江野町１０−２"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~5000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/oMWKTGcTKoJf1fhm8",
+    "popular_menus": [],
+    "id": "cocktail_16",
+    "name": "BAR PARK AVENUE",
+    "category": "cocktail",
+    "lat": 36.564139,
+    "lng": 139.884389,
+    "address": "栃木県宇都宮市塙田２丁目２−１２"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4,000～5,000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/9Avjs26hkhCyeMBt9",
+    "popular_menus": [],
+    "id": "cocktail_17",
+    "name": "THE CAVE",
+    "category": "cocktail",
+    "lat": 36.560857,
+    "lng": 139.883802,
+    "address": "栃木県宇都宮市馬場通り２丁目２−８"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/uNXQaSuQKsHxAYqm7",
+    "popular_menus": [],
+    "id": "cocktai_18",
+    "name": "LUCIFER",
+    "category": "cocktail",
+    "lat": 36.559218,
+    "lng": 139.883679,
+    "address": "栃木県宇都宮市中央１丁目３−８"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/q6rokG66GqJYzN8o9",
+    "popular_menus": [],
+    "id": "cocktail_19",
+    "name": "BAR MARON",
+    "category": "cocktail",
+    "lat": 36.560273,
+    "lng": 139.884045,
+    "address": "栃木県宇都宮市曲師町２−１４ マルヨシビル 2F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "2000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/mEAHrzBF1RRRWZ2u8",
+    "popular_menus": [],
+    "id": "cocktail_20",
+    "name": "BAR BECK",
+    "category": "cocktail",
+    "lat": 36.560302,
+    "lng": 139.884468,
+    "address": "栃木県宇都宮市曲師町２−１１"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/YRYebBMWi6xBpTNs9",
+    "popular_menus": [],
+    "id": "cocktail_21",
+    "name": "BAR桜井　パイプのけむり",
+    "category": "cocktail",
+    "lat": 36.55988,
+    "lng": 139.884793,
+    "address": "栃木県宇都宮市曲師町５−４ 中村園ビル ２F 3F B"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000円~5000円",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/pdW6yxgPaSQKKUpF6",
+    "popular_menus": [],
+    "id": "cocktail_22",
+    "name": "BAR EMOTIONAL",
+    "category": "cocktail",
+    "lat": 36.559597,
+    "lng": 139.884791,
+    "address": "栃木県宇都宮市中央本町１−４ マルヨシビル 2F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "5000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/AzTjget4cZHveTvf8",
+    "popular_menus": [],
+    "id": "cocktail_23",
+    "name": "BAR ANDALUCIA",
+    "category": "cocktail",
+    "lat": 36.559217,
+    "lng": 139.88604,
+    "address": "栃木県宇都宮市中央５丁目１−２"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/ZUd8BnEwaikYZ9Aw8",
+    "popular_menus": [],
+    "id": "cocktail_24",
+    "name": "CORAL LOUNGE LIMOUSINE",
+    "category": "cocktail",
+    "lat": 36.562619,
+    "lng": 139.88011,
+    "address": "宇都宮市泉町2-19　山口レンタルビル2F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/nsoTq9nia8t7XLGL9",
+    "popular_menus": [],
+    "id": "cocktail_25",
+    "name": "JUICE",
+    "category": "cocktail",
+    "lat": 36.558966,
+    "lng": 139.886619,
+    "address": "栃木県宇都宮市中央５丁目２−３"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "2000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/EyzGSBNAxLzSAao39",
+    "popular_menus": [],
+    "id": "cocktail_26",
+    "name": "BAR EVANS",
+    "category": "cocktail",
+    "lat": 36.558127,
+    "lng": 139.901241,
+    "address": "栃木県宇都宮市東宿郷２丁目４−１ 1階"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "4000~6000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/V93TWLoxSAyEQ5936",
+    "popular_menus": [],
+    "id": "cocktail_27",
+    "name": "ライオンズ・ヘッド東口店",
+    "category": "cocktail",
+    "lat": 36.557791,
+    "lng": 139.901572,
+    "address": "栃木県宇都宮市東宿郷２丁目３−３ ホテルサンシャイン 1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~4000",
+    "specialty": "",
+    "stay_time": "60~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://maps.app.goo.gl/ssVjGrCRURUqWKrf7",
+    "popular_menus": [],
+    "id": "cocktail_28",
+    "name": "AMBAR",
+    "category": "cocktail",
+    "lat": 36.556157,
+    "lng": 139.907272,
+    "address": "栃木県宇都宮市東宿郷３丁目１３−６"
+  },
+  {
+    "id": "jazz_1",
+    "name": "KINDAIJIN",
+    "category": "jazz",
+    "status": "normal",
+    "lat": 36.562471,
+    "lng": 139.880492,
+    "address": "栃木県宇都宮市泉町１−１０",
+    "rating": 4.8,
+    "review_count": 850,
+    "price_range": "3500-5000",
+    "specialty": "宇都宮ジャズの聖地",
+    "stay_time": "120-180分",
+    "menu_photo": "/images/kindaijin_jazz.jpg",
+    "realtime_info": "本日のセット20:00",
+    "description": "1960年創業。宇都宮ジャズシーン、その歴史そのもの。",
+    "google_maps_url": "https://www.ujazz.net/shop/jazzspot/shop_kindaijin.html",
+    "popular_menus": [
+      {
+        "name": "ミュージックチャージ",
+        "price": "¥3,500～"
+      },
+      {
+        "name": "追加ドリンク",
+        "price": "￥500～"
+      }
+    ]
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000-6000",
+    "specialty": "まさに大人のジャズバー",
+    "stay_time": "120-180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/jazzspot/shop_blue_j.html",
+    "popular_menus": [
+      {
+        "name": "チャージ(1ドリンク)",
+        "price": "￥3000~"
+      },
+      {
+        "name": "フード",
+        "price": "￥700~"
+      }
+    ],
+    "id": "jazz_2",
+    "name": "BLUE・J",
+    "category": "jazz",
+    "lat": 36.562748,
+    "lng": 139.88247,
+    "address": "宇都宮市本町1-23　本町昭和ビル3F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "音楽家×メイド",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/charlilupuls.html",
+    "popular_menus": [
+      {
+        "name": "1ドリンク&お通し",
+        "price": "￥1900～"
+      },
+      {
+        "name": "ドリンク",
+        "price": "￥500～"
+      }
+    ],
+    "id": "jazz_3",
+    "name": "CHARILU+",
+    "category": "jazz",
+    "lat": 36.560527,
+    "lng": 139.887273,
+    "address": "宇都宮市馬場通り３丁目３−３ナインローズ 1F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "老舗ウェスタンバー",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/shop_bronco.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "¥1,000~"
+      },
+      {
+        "name": "ドリンク・フード",
+        "price": "￥500～"
+      }
+    ],
+    "id": "jazz_4",
+    "name": "BRONCO",
+    "category": "jazz",
+    "lat": 36.560612,
+    "lng": 139.888917,
+    "address": "宇都宮市大通り2-1-4"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/shop_free_flight.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "￥500～"
+      },
+      {
+        "name": "フード・ドリンク",
+        "price": "￥500～"
+      }
+    ],
+    "id": "jazz_5",
+    "name": "FREE FLIGHT",
+    "category": "jazz",
+    "lat": 36.559122,
+    "lng": 139.905632,
+    "address": "宇都宮市東宿郷4-4-6"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/shop_indulz_dream.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "￥500・1000～"
+      },
+      {
+        "name": "ドリンク",
+        "price": "￥630"
+      }
+    ],
+    "id": "jazz_6",
+    "name": "INDULZ DREAM",
+    "category": "jazz",
+    "lat": 36.559067,
+    "lng": 139.90183,
+    "address": "宇都宮市東宿郷1-3-9 アーサビル２F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/shop_gorge.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "￥500～"
+      },
+      {
+        "name": "ドリンク",
+        "price": "￥500～"
+      }
+    ],
+    "id": "jazz_7",
+    "name": "GORGE",
+    "category": "jazz",
+    "lat": 36.558057,
+    "lng": 139.916844,
+    "address": "宇都宮市東今泉1-2-6"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~",
+    "specialty": "",
+    "stay_time": "120~180",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/bar/shop_sherlock_holmes.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "なし"
+      }
+    ],
+    "id": "jazz_8",
+    "name": "SHERLOCK HOLMES",
+    "category": "jazz",
+    "lat": 36.56865,
+    "lng": 139.902814,
+    "address": "宇都宮市中今泉1-6-18"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~????",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/hall/shop_big_apple.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "不定"
+      },
+      {
+        "name": "ドリンク・フード",
+        "price": "￥500～"
+      }
+    ],
+    "id": "jazz_9",
+    "name": "BIG APPLE",
+    "category": "jazz",
+    "lat": 36.554077,
+    "lng": 139.88635,
+    "address": "宇都宮市本丸13-19　本丸ビル3F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "ライブスタジオ",
+    "google_maps_url": "https://maps.app.goo.gl/GSiyF4NDtdcijeBH8",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "¥1,000~"
+      }
+    ],
+    "id": "jazz_10",
+    "name": "BEAT CLUB STUDIO",
+    "category": "jazz",
+    "lat": 36.565531,
+    "lng": 139.889785,
+    "address": "宇都宮市東塙田1-5-12"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "？？？？",
+    "specialty": "",
+    "stay_time": "？？？？",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "イベントスペース。HPを要確認！",
+    "google_maps_url": "https://www.ujazz.net/shop/hall/caramel_studio.html",
+    "popular_menus": [],
+    "id": "jazz_11",
+    "name": "CARAMEL STUDIO",
+    "category": "jazz",
+    "lat": 36.526349,
+    "lng": 139.834793,
+    "address": ""
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "1000~3000",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/restaurant/shop_rmets.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "なし"
+      },
+      {
+        "name": "ドリンク",
+        "price": "￥480~"
+      }
+    ],
+    "id": "jazz_12",
+    "name": "JR東日本ホテルメッツ宇都宮",
+    "category": "jazz",
+    "lat": 36.560816,
+    "lng": 139.898175,
+    "address": "宇都宮市川向町1-23 JR東日本ホテルメッツ宇都宮 3F"
+  },
+  {
+    "status": "available",
+    "rating": 4,
+    "review_count": 0,
+    "price_range": "3000~5000",
+    "specialty": "",
+    "stay_time": "120~180分",
+    "menu_photo": "",
+    "realtime_info": "",
+    "description": "",
+    "google_maps_url": "https://www.ujazz.net/shop/restaurant/cafeinkblue.html",
+    "popular_menus": [
+      {
+        "name": "チャージ",
+        "price": "不定"
+      },
+      {
+        "name": "ドリンク",
+        "price": "￥380～"
+      }
+    ],
+    "id": "jazz_13",
+    "name": "CAFE INK BLUE",
+    "category": "jazz",
+    "lat": 36.559914,
+    "lng": 139.882642,
+    "address": "宇都宮市江野町9-8 山崎ビル"
+  }
+]

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統合管理画面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        small {
+            color: #666;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .coord-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .category-emoji {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .category-id {
+            font-size: 12px;
+            color: #666;
+            font-family: monospace;
+        }
+        
+        .add-category-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px dashed #667eea;
+        }
+        
+        .preview-box {
+            background: #fff8e1;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .preview-box h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .preview-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .message {
+            display: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MAPGENERATOR管理画面</h1>
+            <p>フォーマット編集・店舗登録・リアルタイム更新</p>
+        </div>
+        
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('format')">
+                フォーマット編集
+            </button>
+            <button class="tab-btn" onclick="switchTab('store')">
+                店舗登録
+            </button>
+            <button class="tab-btn" onclick="switchTab('realtime')">
+                リアルタイム更新
+            </button>
+        </div>
+        
+        <div class="content">
+            <!-- タブ1: フォーマット編集 -->
+            <div id="tab-format" class="tab-content active">
+                <h2 style="margin-bottom: 20px;">フォーマット編集</h2>
+                
+                <form id="formatForm" onsubmit="saveFormat(event)">
+                    <!-- アプリタイトル -->
+                    <div class="form-section">
+                        <h3>タイトル・サブタイトル</h3>
+                        <div class="form-group">
+                            <label>メインタイトル</label>
+                            <input type="text" id="appTitle" required placeholder="例: うつのみYEAH!">
+                        </div>
+                        <div class="form-group">
+                            <label>サブタイトル1</label>
+                            <input type="text" id="subtitle1" placeholder='例: "帰り道は宇都宮で。"'>
+                        </div>
+                        <div class="form-group">
+                            <label>サブタイトル2</label>
+                            <input type="text" id="subtitle2" placeholder='例: "寄り道が、特別な旅になる。"'>
+                        </div>
+                    </div>
+                    
+                    <!-- マップ中心座標 -->
+                    <div class="form-section">
+                        <h3>マップ中心座標</h3>
+                        <div class="coord-inputs">
+                            <div class="form-group">
+                                <label>緯度 (Latitude)</label>
+                                <input type="number" step="0.0001" id="mapLat" required>
+                                <small>例: 36.5579 (宇都宮駅)</small>
+                            </div>
+                            <div class="form-group">
+                                <label>経度 (Longitude)</label>
+                                <input type="number" step="0.0001" id="mapLng" required>
+                                <small>例: 139.8984 (宇都宮駅)</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>ズームレベル</label>
+                            <input type="number" min="1" max="20" id="mapZoom" required>
+                            <small>1-20の範囲で指定 (14推奨)</small>
+                        </div>
+                    </div>
+                    
+                    <!-- カテゴリー管理 -->
+                    <div class="form-section">
+                        <h3>カテゴリー管理</h3>
+                        <div id="categoryList" class="category-list">
+                            <!-- JavaScriptで動的生成 -->
+                        </div>
+                        
+                        <div class="add-category-form">
+                            <h4 style="margin-bottom: 15px;">＋新しいカテゴリーを追加</h4>
+                            <div class="form-group">
+                                <label>カテゴリーID</label>
+                                <input type="text" id="newCategoryId" placeholder="例: ramen">
+                                <small>半角英数字で入力してください</small>
+                            </div>
+                            <div class="form-group">
+                                <label>カテゴリー名</label>
+                                <input type="text" id="newCategoryName" placeholder="例: ラーメン">
+                            </div>
+                            <div class="form-group">
+                                <label>絵文字</label>
+                                <input type="text" id="newCategoryEmoji" placeholder="例: 🍜" maxlength="2">
+                            </div>
+                            <button type="button" class="btn-primary" onclick="addCategory()">
+                                追加
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- AI案内文章 -->
+                    <div class="form-section">
+                        <h3>案内文章設定</h3>
+                        <div class="form-group">
+                            <label>挨拶メッセージ</label>
+                            <textarea id="aiGreeting" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>サービス説明</label>
+                            <textarea id="aiDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>カテゴリー選択時のメッセージ</label>
+                            <textarea id="aiCategoryPrompt" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- プレビュー -->
+                    <div class="preview-box">
+                        <h4>プレビュー</h4>
+                        <div class="preview-info" id="formatPreview">
+設定を入力するとここにプレビューが表示されます
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">フォーマットを保存</button>
+                    <button type="button" class="btn-secondary" onclick="resetFormat()">🔄 現在の設定を再読み込み</button>
+                </form>
+                
+                <div id="formatMessage" class="message"></div>
+            </div>
+            
+            <!-- タブ2: 店舗登録 -->
+            <div id="tab-store" class="tab-content">
+                <h2 style="margin-bottom: 20px;">店舗登録</h2>
+                
+                <form id="placeForm" onsubmit="submitPlace(event)">
+                    <div class="form-group">
+                        <label>店舗ID *</label>
+                        <input type="text" id="id" required placeholder="例: gyoza_1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>店舗名 *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>カテゴリー *</label>
+                        <select id="category" required>
+                            <option value="">選択してください</option>
+                            <option value="gyoza">餃子</option>
+                            <option value="cocktail">カクテル</option>
+                            <option value="jazz">ジャズ</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>緯度 (Latitude) *</label>
+                        <input type="number" step="0.000001" id="lat" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>経度 (Longitude) *</label>
+                        <input type="number" step="0.000001" id="lng" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>住所</label>
+                        <input type="text" id="address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>価格帯</label>
+                        <input type="text" id="price_range" placeholder="例: ¥500-1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>特徴・名物</label>
+                        <input type="text" id="specialty">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>滞在目安時間</label>
+                        <input type="text" id="stay_time" placeholder="例: 30-60分">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>リアルタイム情報</label>
+                        <textarea id="realtime_info"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>説明文</label>
+                        <textarea id="description"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>人気メニュー (JSON形式)</label>
+                        <textarea id="popular_menus" placeholder='[{"name":"焼餃子","price":"¥380"}]'></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">登録</button>
+                </form>
+                
+                <div id="message" class="message"></div>
+            </div>
+            
+            <!-- タブ3: リアルタイム更新 -->
+            <div id="tab-realtime" class="tab-content">
+                <h2 style="margin-bottom: 20px;">リアルタイム更新</h2>
+                <p style="color: #666; margin-bottom: 20px;">
+                    この機能は別ページで提供されています。
+                </p>
+                <button class="btn-primary" onclick="window.open('realtime-update.html', '_blank')">
+                    🔗 リアルタイム更新ページを開く
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+        let currentConfig = null;
+
+        // ============================================
+        // タブ切り替え
+        // ============================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            if (tabName === 'format') {
+                loadCurrentConfig();
+            }
+        }
+
+        // ============================================
+        // フォーマット編集機能
+        // ============================================
+        
+        async function loadCurrentConfig() {
+            try {
+                const response = await fetch(`${API_URL}/config`);
+                currentConfig = await response.json();
+                
+                // フォームに反映
+                document.getElementById('appTitle').value = currentConfig.appTitle;
+                document.getElementById('subtitle1').value = currentConfig.subtitle1;
+                document.getElementById('subtitle2').value = currentConfig.subtitle2;
+                document.getElementById('mapLat').value = currentConfig.map.center.lat;
+                document.getElementById('mapLng').value = currentConfig.map.center.lng;
+                document.getElementById('mapZoom').value = currentConfig.map.zoom;
+                document.getElementById('aiGreeting').value = currentConfig.ai.greeting;
+                document.getElementById('aiDescription').value = currentConfig.ai.description;
+                document.getElementById('aiCategoryPrompt').value = currentConfig.ai.categoryPrompt;
+                
+                renderCategories();
+                updateFormatPreview();
+            } catch (error) {
+                console.error('設定読み込みエラー:', error);
+                showMessage('formatMessage', '❌ 設定の読み込みに失敗しました', 'error');
+            }
+        }
+        
+        function renderCategories() {
+            const list = document.getElementById('categoryList');
+            
+            // currentConfigがnullの場合の処理
+            if (!currentConfig || !currentConfig.categories) {
+                list.innerHTML = '<p style="color: #999;">設定を読み込んでいます...</p>';
+                return;
+            }
+            
+            const categories = currentConfig.categories;
+            
+            list.innerHTML = categories.map((cat, index) => `
+                <div class="category-item">
+                    <div class="category-emoji">${cat.emoji}</div>
+                    <div class="category-info">
+                        <div class="category-name">${cat.name}</div>
+                        <div class="category-id">ID: ${cat.id}</div>
+                    </div>
+                    <button type="button" class="btn-danger" onclick="removeCategory(${index})">
+                        削除
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function addCategory() {
+            // currentConfigがnullの場合のチェック
+            if (!currentConfig || !currentConfig.categories) {
+                alert('設定が読み込まれていません。ページをリロードしてください。');
+                return;
+            }
+            
+            const id = document.getElementById('newCategoryId').value.trim();
+            const name = document.getElementById('newCategoryName').value.trim();
+            const emoji = document.getElementById('newCategoryEmoji').value.trim();
+            
+            if (!id || !name || !emoji) {
+                alert('すべての項目を入力してください');
+                return;
+            }
+            
+            if (currentConfig.categories.find(c => c.id === id)) {
+                alert('このIDは既に使用されています');
+                return;
+            }
+            
+            currentConfig.categories.push({ id, name, emoji });
+            
+            document.getElementById('newCategoryId').value = '';
+            document.getElementById('newCategoryName').value = '';
+            document.getElementById('newCategoryEmoji').value = '';
+            
+            renderCategories();
+            updateFormatPreview();
+        }
+        
+        function removeCategory(index) {
+            // currentConfigがnullの場合のチェック
+            if (!currentConfig || !currentConfig.categories) {
+                alert('設定が読み込まれていません。ページをリロードしてください。');
+                return;
+            }
+            
+            if (confirm(`「${currentConfig.categories[index].name}」を削除しますか?`)) {
+                currentConfig.categories.splice(index, 1);
+                renderCategories();
+                updateFormatPreview();
+            }
+        }
+        
+        function updateFormatPreview() {
+            const lat = document.getElementById('mapLat').value;
+            const lng = document.getElementById('mapLng').value;
+            const zoom = document.getElementById('mapZoom').value;
+            const title = document.getElementById('appTitle').value;
+            
+            // currentConfigがnullの場合の処理
+            if (!currentConfig || !currentConfig.categories) {
+                document.getElementById('formatPreview').textContent = '設定を読み込んでいます...';
+                return;
+            }
+            
+            const preview = `アプリタイトル: "${title}"
+マップ中心: (${lat}, ${lng})
+ズームレベル: ${zoom}
+カテゴリー数: ${currentConfig.categories.length}件`;
+            
+            document.getElementById('formatPreview').textContent = preview;
+        }
+        
+        async function saveFormat(e) {
+            e.preventDefault();
+            
+            // currentConfigがnullの場合はエラーメッセージを表示
+            if (!currentConfig || !currentConfig.categories) {
+                showMessage('formatMessage', '❌ 設定が読み込まれていません。ページをリロードしてください。', 'error');
+                return;
+            }
+            
+            const config = {
+                appTitle: document.getElementById('appTitle').value,
+                subtitle1: document.getElementById('subtitle1').value,
+                subtitle2: document.getElementById('subtitle2').value,
+                map: {
+                    center: {
+                        lat: parseFloat(document.getElementById('mapLat').value),
+                        lng: parseFloat(document.getElementById('mapLng').value)
+                    },
+                    zoom: parseInt(document.getElementById('mapZoom').value)
+                },
+                categories: currentConfig.categories,
+                ai: {
+                    greeting: document.getElementById('aiGreeting').value,
+                    description: document.getElementById('aiDescription').value,
+                    categoryPrompt: document.getElementById('aiCategoryPrompt').value
+                }
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/config`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('formatMessage', '✅ フォーマット設定を保存しました!ページをリロードすると反映されます。', 'success');
+                    currentConfig = config;
+                } else {
+                    showMessage('formatMessage', '❌ ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('保存エラー:', error);
+                showMessage('formatMessage', '❌ サーバーに接続できませんでした', 'error');
+            }
+        }
+        
+        function resetFormat() {
+            if (confirm('現在の設定を再読み込みしますか?未保存の変更は失われます。')) {
+                loadCurrentConfig();
+            }
+        }
+        
+        // ============================================
+        // 店舗登録機能
+        // ============================================
+        
+        async function submitPlace(e) {
+            e.preventDefault();
+            
+            const data = {
+                id: document.getElementById('id').value.trim(),
+                name: document.getElementById('name').value.trim(),
+                category: document.getElementById('category').value,
+                lat: parseFloat(document.getElementById('lat').value),
+                lng: parseFloat(document.getElementById('lng').value),
+                address: document.getElementById('address').value.trim(),
+                rating: 4.0,
+                review_count: 0,
+                price_range: document.getElementById('price_range').value.trim(),
+                specialty: document.getElementById('specialty').value.trim(),
+                stay_time: document.getElementById('stay_time').value.trim(),
+                realtime_info: document.getElementById('realtime_info').value.trim(),
+                description: document.getElementById('description').value.trim(),
+                google_maps_url: `https://maps.google.com/?q=${document.getElementById('lat').value},${document.getElementById('lng').value}`,
+                status: 'available',
+                menu_photo: '',
+                popular_menus: []
+            };
+            
+            const menusText = document.getElementById('popular_menus').value.trim();
+            if (menusText) {
+                try {
+                    data.popular_menus = JSON.parse(menusText);
+                } catch (err) {
+                    showMessage('message', '❌ 人気メニューのJSON形式が正しくありません', 'error');
+                    return;
+                }
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/places`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('message', `✅ ${data.name} を登録しました!ページをリロードすると地図に表示されます。`, 'success');
+                    document.getElementById('placeForm').reset();
+                } else {
+                    showMessage('message', `❌ ${result.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('message', '❌ サーバーに接続できませんでした', 'error');
+            }
+        }
+        
+        // ============================================
+        // ユーティリティ
+        // ============================================
+        
+        function showMessage(elementId, text, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = text;
+            element.className = `message ${type}`;
+            
+            setTimeout(() => {
+                element.className = 'message';
+            }, 5000);
+        }
+        
+        // ============================================
+        // ページ読み込み時
+        // ============================================
+        
+        window.addEventListener('load', () => {
+            loadCurrentConfig();
+            
+            // リアルタイムプレビュー更新
+            ['mapLat', 'mapLng', 'mapZoom', 'appTitle'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updateFormatPreview);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "appTitle": "UTSUNOMIYEAH!",
+  "subtitle1": "帰り道は宇都宮で",
+  "subtitle2": "寄り道が、特別な旅になる",
+  "map": {
+    "center": {
+      "lat": 36.5579,
+      "lng": 139.8984
+    },
+    "zoom": 14
+  },
+  "categories": [
+    {
+      "id": "gyoza",
+      "name": "餃子",
+      "emoji": "🥟"
+    },
+    {
+      "id": "cocktail",
+      "name": "カクテル",
+      "emoji": "🍸"
+    },
+    {
+      "id": "jazz",
+      "name": "ジャズ",
+      "emoji": "🎷"
+    }
+  ],
+  "ai": {
+    "greeting": "こんにちは!僕は宇都宮の妖精！",
+    "description": "帰るまでの間、君の時間を手助けするよ！",
+    "categoryPrompt": "なにがしたい？"
+  }
+}

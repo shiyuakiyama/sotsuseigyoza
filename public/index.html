@@ -1,0 +1,3939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UtsunomiYa Quick Guide - 餃子・カクテル・ジャズ体験</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to left, #ffd89b 0%, #19547b 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 15px 0;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleShimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+        
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 0.9; transform: translateY(0); }
+        }
+        
+        .theme-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .theme-icon {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .theme-icon:nth-child(2) { animation-delay: 0.2s; }
+        .theme-icon:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .theme-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+        }
+        
+        .map-container {
+            flex: 1;
+            position: relative;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px 20px 0 0;
+            margin-top: 10px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* Leafletマップのスタイル */
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            touch-action: pan-x pan-y pinch-zoom; /* タッチ操作を許可 */
+        }
+        /* カスタムマーカーアイコン */
+        .custom-marker {
+            width: 32px;
+            height: 32px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-marker:hover {
+            transform: rotate(-45deg) scale(1.2);
+        }
+
+        .custom-marker::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .marker-emoji {
+            transform: rotate(45deg);
+            font-size: 16px;
+        }
+
+        .marker-gyoza { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+        .marker-cocktail { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .marker-jazz { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        
+        .map-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 200;
+        }
+        
+        .map-control-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .map-control-btn:hover {
+            background: rgba(255,255,255,1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .filter-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 200;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .category-filter-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        
+        .category-filter-btn.active {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .category-filter-btn.gyoza { background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white; }
+        .category-filter-btn.cocktail { background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; }
+        .category-filter-btn.jazz { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .category-filter-btn.all { background: linear-gradient(#19547b 100%); color: white; }
+        
+        .settings-panel {
+            position: absolute;
+            bottom: 80px;
+            left: 15px;
+            z-index: 300;
+        }
+        
+        .settings-toggle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(#19547b 100%);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .settings-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .settings-toggle.active {
+            transform: rotate(45deg);
+        }
+        
+        .settings-content {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 280px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0);
+            transform-origin: bottom left;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .settings-content.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .settings-group {
+            margin-bottom: 15px;
+        }
+        
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .settings-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .settings-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .quick-action-btn {
+            flex: 1;
+            background: linear-gradient(to left, #ffd89b 0%, #19547b 100%);
+            color: white;
+            border: none;
+            padding: 10px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUpModal 0.4s ease;
+        }
+        
+        @keyframes slideUpModal {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 20px 20px 0 20px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 0 20px 20px 20px;
+        }
+        
+        .place-card-modal {
+            background: white;
+            position: relative;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .place-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .category-badge {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .category-gyoza {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        
+        .category-cocktail {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+        
+        .category-jazz {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status-available {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+            color: white;
+        }
+        
+        .status-busy {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: white;
+        }
+        
+        .status-full {
+            background: linear-gradient(135deg, #fc4a1a, #f7b733);
+            color: white;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(#19547b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: #ffc107;
+            font-size: 18px;
+        }
+        
+        .realtime-info {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+        
+        .realtime-info::before {
+            content: '🔴';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        .realtime-info h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+        
+        .realtime-info p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .social-feedback {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .social-feedback:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        
+        .social-feedback::before {
+            content: '💬';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+        
+        .social-feedback::after {
+            content: '👆 タップで口コミ一覧';
+            position: absolute;
+            bottom: 5px;
+            right: 15px;
+            font-size: 10px;
+            color: #888;
+        }
+        
+        .social-feedback h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .social-feedback p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(to left, #ffd89b 0%, #19547b 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+            color: #4a5568;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #cbd5e0, #a0aec0);
+            transform: translateY(-2px);
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .reviews-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .review-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .review-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .review-rating {
+            color: #ffc107;
+            margin-bottom: 5px;
+        }
+        
+        .review-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .review-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .helpful-button {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+        
+        .helpful-button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .helpful-button.voted {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* ルート選択用のスタイル */
+        .route-selection-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 90%;
+            display: none;
+        }
+
+        .route-selection-panel.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .route-selection-header {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .selected-places {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .selected-place-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .selected-place-tag button {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .route-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .route-actions button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .create-route-btn {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+            color: white;
+        }
+
+        .clear-route-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .custom-marker-wrapper {
+            background: transparent !important;
+            border: none !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255,215,0,0.3) !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+        }
+
+        .custom-marker-wrapper *,
+        .custom-marker-wrapper .custom-marker,
+        .custom-marker-wrapper .marker-emoji {
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            cursor: pointer !important;
+        }
+
+        .leaflet-routing-container {
+            display: none;
+        }
+        
+        /* 混雑度による色分け */
+        .marker-available { 
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf) !important; /* 緑：空き */
+        }
+        .marker-normal { 
+            background: linear-gradient(135deg, #f7971e, #ffd200) !important; /* 黄：普通 */
+        }
+        .marker-busy { 
+            background: linear-gradient(135deg, #fc4a1a, #f7b733) !important; /* 赤：混雑 */
+        }
+
+        /* 距離表示 */
+        .marker-distance {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* 2段階目ポップアップ */
+        /* 2段階目ポップアップ - スマホ最適化版 */
+        .quick-info-popup {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000 !important;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+
+        .quick-info-popup.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .quick-info-content {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            pointer-events: auto;
+            position: relative;
+            z-index: 10001 !important;
+        }
+
+        .quick-info-popup.active .quick-info-content {
+            transform: translateY(0);
+        }
+
+        .quick-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .quick-category {
+            background: linear-gradient(#19547b 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .quick-close {
+            background: #f0f0f0;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .quick-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .quick-status {
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .quick-time {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .quick-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;}
+
+            .quick-stars {
+                color: #ffc107;
+            }
+
+            .quick-menu {
+                display: flex;
+                gap: 12px;
+                margin-bottom: 15px;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 12px;
+            }
+
+            .menu-photo {
+                width: 80px;
+                height: 80px;
+                border-radius: 8px;
+                background-size: cover;
+                background-position: center;
+                background-color: #ddd;
+                flex-shrink: 0;
+            }
+
+            .menu-text {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .menu-text strong {
+                font-size: 14px;
+                color: #333;
+            }
+
+            .menu-text span {
+                font-size: 13px;
+                color: #666;
+            }
+
+            .btn-detail {
+                width: 100%;
+                background: linear-gradient(to right, #667eea, #764ba2);
+                color: white;
+                border: none;
+                padding: 14px;
+                border-radius: 12px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .btn-detail:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+
+            /* 3段階目詳細シート用 */
+            .detail-priority-info {
+                background: #fff8e1;
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 15px;
+            }
+
+            .priority-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+
+            .priority-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .detail-section {
+                margin-bottom: 20px;
+            }
+
+            .detail-section h4 {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .menu-list {
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .menu-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .menu-item:last-child {
+                border-bottom: none;
+            }
+
+            .menu-name {
+                font-size: 14px;
+                color: #333;
+            }
+
+            .menu-price {
+                font-size: 14px;
+                color: #667eea;
+                font-weight: 600;
+            }
+
+            .reviews-mini {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .review-mini {
+                background: #f8f9fa;
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            .review-mini-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                font-size: 13px;
+            }
+
+            .review-mini-rating {
+                color: #ffc107;
+            }
+
+            .review-mini p {
+                font-size: 13px;
+                color: #666;
+                margin: 0;
+            }
+
+            .detail-description {
+                background: #e3f2fd;
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+
+            .detail-description p {
+                font-size: 14px;
+                color: #555;
+                line-height: 1.6;
+                margin: 0;
+            }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .theme-icons {
+                gap: 15px;
+                font-size: 1.3rem;
+            }
+            
+            .settings-content {
+                min-width: 260px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        *:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* AIチャットモーダル */
+        .ai-chat-modal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .ai-chat-container {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 500px;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUpModal 0.4s ease;
+        }
+
+        .ai-chat-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .ai-chat-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-message,
+        .user-message {
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: messageSlideIn 0.3s ease;
+        }
+
+        .ai-message {
+            background: #f0f0f0;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .ai-chat-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .ai-option-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-option-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .ai-typing {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .ai-typing span {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .ai-typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .ai-typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-particles" id="particles"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>うつのみYEAH！</h1>
+            <p>"帰り道は宇都宮で。"</p>
+            <p>"寄り道が、特別な旅になる。"</p>
+            <div class="theme-icons">
+                <div class="theme-icon" tabindex="0" role="button" aria-label="餃子スポット">🥟</div>
+                <div class="theme-icon" tabindex="0" role="button" aria-label="カクテルバー">🍸</div>
+                <div class="theme-icon" tabindex="0" role="button" aria-label="ジャズクラブ">🎷</div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div class="map-wrapper">
+                <div class="filter-toggle">
+                    <div class="category-filter">
+                        <button class="category-filter-btn all active" data-category="all" aria-label="全カテゴリ">🌟</button>
+                        <button class="category-filter-btn gyoza" data-category="gyoza" aria-label="餃子">🥟</button>
+                        <button class="category-filter-btn cocktail" data-category="cocktail" aria-label="カクテル">🍸</button>
+                        <button class="category-filter-btn jazz" data-category="jazz" aria-label="ジャズ">🎷</button>
+                    </div>
+                </div>
+                
+                <div class="map-controls">
+                    <button class="map-control-btn" onclick="zoomIn()" aria-label="拡大">+</button>
+                    <button class="map-control-btn" onclick="zoomOut()" aria-label="縮小">-</button>
+                    <button class="map-control-btn" onclick="resetView()" aria-label="表示リセット">⌂</button>
+                    <button class="map-control-btn" onclick="toggleRouteMode()" aria-label="ルート作成モード" title="ルート作成">🗺️</button>
+                    <button class="map-control-btn" onclick="openAIChat()" aria-label="AI案内" title="AI案内" 
+                            style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                        🤖
+                    </button>
+                </div>
+                
+                <!-- Leaflet マップ -->
+                <div id="map"></div>
+                <!-- ルート選択パネル -->
+                <div class="route-selection-panel" id="routePanel">
+                    <div class="route-selection-header">📍 訪問する場所を選択</div>
+                    <div class="selected-places" id="selectedPlaces"></div>
+                    <div class="route-actions">
+                        <button class="create-route-btn" onclick="createOptimalRoute()">ルートを作成</button>
+                        <button class="clear-route-btn" onclick="clearRouteSelection()">クリア</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-panel">
+                <div class="settings-content" id="settingsContent">
+                    <h3 style="margin-bottom: 15px; color: #333; font-size: 16px;">⚙️ 設定・管理</h3>
+                    <!-- ★ マップスタイル変更(新機能) -->
+                    <div class="settings-group">
+                        <label>🗺️ マップスタイル</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                            <button type="button" onclick="changeMapStyle('standard')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: white; color: #333; font-weight: 600; cursor: pointer; font-size: 12px;
+                                transition: all 0.3s ease;
+                            ">🌍 標準</button>
+            
+                            <button type="button" onclick="changeMapStyle('dark')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: #2c3e50; color: white; font-weight: 600; cursor: pointer; font-size: 12px;
+                                transition: all 0.3s ease;
+                            ">🌙 ダーク</button>
+            
+                            <button type="button" onclick="changeMapStyle('watercolor')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; 
+                                font-weight: 600; cursor: pointer; font-size: 12px;
+                                transition: all 0.3s ease;
+                            ">🎨 水彩</button>
+            
+                            <button type="button" onclick="changeMapStyle('satellite')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(135deg, #4a90e2, #50c878); color: white; 
+                                font-weight: 600; cursor: pointer; font-size: 12px;
+                                transition: all 0.3s ease;
+                            ">🛰️ 地形</button>
+                        </div>
+                        <small style="display: block; margin-top: 8px; color: #666;">
+                        </small>
+                    </div>
+    
+                    <!-- ★ 背景テーマ変更（新規追加） -->
+                    <div class="settings-group">
+                        <label>🎨 背景テーマ</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                            <button type="button" onclick="changeThemeColor('ocean')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(to left, #ffd89b 0%, #19547b 100%);
+                                color: white; font-weight: 600; cursor: pointer; font-size: 12px;
+                            ">オーシャン</button>
+            
+                            <button type="button" onclick="changeThemeColor('sunset')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(to left, #7084a5, #ada6be, #d4b0b5);
+                                color: white; font-weight: 600; cursor: pointer; font-size: 12px;
+                            ">サンセット</button>
+            
+                            <button type="button" onclick="changeThemeColor('forest')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(to left, #2f7f29, #549854, #a5caa7);
+                                color: white; font-weight: 600; cursor: pointer; font-size: 12px;
+                            ">フォレスト</button>
+            
+                            <button type="button" onclick="changeThemeColor('night')" style="
+                                padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
+                                background: linear-gradient(135deg, #5c658b, #1c2c52, #051637);
+                                color: white; font-weight: 600; cursor: pointer; font-size: 12px;
+                            ">ナイト</button>
+                        </div>
+                        <small style="display: block; margin-top: 8px; color: #666;">
+                        </small>
+                    </div>
+    
+                    <button type="button" onclick="resetThemeColor()" style="
+                        width: 100%; padding: 10px; background: #e2e8f0; 
+                        color: #4a5568; border: none; border-radius: 8px; 
+                        font-weight: 600; cursor: pointer; margin-top: 10px; 
+                        transition: all 0.3s ease; font-size: 13px;
+                    ">
+                        🔄 デフォルトに戻す
+                    </button>
+                </div>
+                
+                <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" aria-label="設定パネルを開く">⚙️</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+
+    <script>
+        // ============================================
+        // 設定ファイル読み込み
+        // ============================================
+        let appConfig = null;
+
+        async function loadAppConfig() {
+            try {
+                const response = await fetch(`${API_URL}/config`);
+                appConfig = await response.json();
+                console.log('✅ 設定を読み込みました:', appConfig);
+        
+                // タイトルとサブタイトルを反映
+                document.querySelector('.header h1').textContent = appConfig.appTitle;
+                const subtitles = document.querySelectorAll('.header p');
+                if (subtitles[0]) subtitles[0].textContent = appConfig.subtitle1;
+                if (subtitles[1]) subtitles[1].textContent = appConfig.subtitle2;
+        
+                // テーマアイコンを動的生成
+                initializeThemeIcons();
+        
+                return appConfig;
+            } catch (error) {
+                console.error('❌ 設定読み込みエラー:', error);
+                // フォールバック: デフォルト設定
+                appConfig = {
+                    appTitle: "うつのみYEAH!",
+                    subtitle1: "帰り道は宇都宮で。",
+                    subtitle2: "寄り道が、特別な旅になる。",
+                    map: {
+                        center: { lat: 36.5579, lng: 139.8984 },
+                        zoom: 14
+                    },
+                    categories: [
+                        { id: 'gyoza', name: '餃子', emoji: '🥟' },
+                        { id: 'cocktail', name: 'カクテル', emoji: '🍸' },
+                        { id: 'jazz', name: 'ジャズ', emoji: '🎷' }
+                    ],
+                    ai: {
+                        greeting: 'こんにちは!宇都宮観光AI案内です 🎉',
+                        description: '短時間で宇都宮を楽しむ最適なルートをご提案します!',
+                        categoryPrompt: '何を体験したいですか?'
+                    }
+                };
+                return appConfig;
+            }
+        }
+
+        // テーマアイコンを動的生成
+        function initializeThemeIcons() {
+            const container = document.querySelector('.theme-icons');
+            if (container && appConfig && appConfig.categories) {
+                container.innerHTML = appConfig.categories.map(cat => 
+                    `<div class="theme-icon" tabindex="0" role="button" aria-label="${cat.name}スポット">${cat.emoji}</div>`
+                ).join('');
+            }
+        }
+
+        // カテゴリーフィルターを動的生成
+        function initializeCategoryFilter() {
+            const filterContainer = document.querySelector('.category-filter');
+            if (filterContainer && appConfig && appConfig.categories) {
+                let html = '<button class="category-filter-btn all active" data-category="all" aria-label="全カテゴリ">🌟</button>';
+        
+                appConfig.categories.forEach(cat => {
+                    html += `<button class="category-filter-btn ${cat.id}" data-category="${cat.id}" aria-label="${cat.name}">${cat.emoji}</button>`;
+                });
+        
+                filterContainer.innerHTML = html;
+            }
+        }
+
+        // API設定 - スマホ対応
+        const API_URL = (() => {
+            const hostname = window.location.hostname;
+            // localhost または 127.0.0.1 の場合はそのまま
+            if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                return 'http://localhost:8000/api';
+            }
+            // それ以外(IPアドレス)の場合は同じホストを使用
+            return `http://${hostname}:8000/api`;
+        })();
+        
+        // 店舗データ
+        const samplePlaces = {
+            gyoza: [
+                {
+                    id: 'gyoza_1',
+                    name: "みんみん 本店",
+                    category: "gyoza",
+                    status: "available",
+                    statusText: "空席あり",
+                    distance: "850m",
+                    walkTime: "11分",
+                    waitTime: "5-10分",
+                    rating: 4.3,
+                    reviews: 1250,
+                    priceRange: "¥500-800",
+                    specialty: "焼餃子定食",
+                    realtimeInfo: "現在の混雑度: 60% | テーブル席空きあり | 平均滞在時間: 45分",
+                    tags: ["老舗", "駐車場有", "出張者人気"],
+                    timeRecommendation: "30-60分",
+                    lat: 36.5579,  // ← 追加
+                    lng: 139.8984, // ← 追加
+                    address: "栃木県宇都宮市" // ← 追加
+                },
+                {
+                    id: 'gyoza_2',
+                    name: "来らっせ",
+                    category: "gyoza",
+                    status: "busy",
+                    statusText: "人気スポット",
+                    distance: "1200m",
+                    walkTime: "15分",
+                    waitTime: "10-15分",
+                    rating: 4.6,
+                    reviews: 3200,
+                    priceRange: "¥300-500",
+                    specialty: "餃子食べ比べ",
+                    realtimeInfo: "複数店舗の餃子を一度に楽しめる餃子テーマパーク | 現在7店舗営業中",
+                    tags: ["観光スポット", "食べ比べ", "土産購入可"],
+                    timeRecommendation: "60-90分",
+                    lat: 36.5600, // ← 追加
+                    lng: 139.8950, // ← 追加
+                    address: "栃木県宇都宮市" // ← 追加
+                }
+            ],
+            cocktail: [
+                {
+                    id: 'cocktail_1',
+                    name: "夢酒OGAWA",
+                    category: "cocktail",
+                    status: "available",
+                    statusText: "営業中",
+                    distance: "900m",
+                    walkTime: "12分",
+                    waitTime: "すぐ入店可",
+                    rating: 4.5,
+                    reviews: 890,
+                    priceRange: "¥800-1500",
+                    specialty: "宇都宮カクテル",
+                    realtimeInfo: "本日のライブ: 19:30〜 | カウンター席空きあり | 地元食材使用のオリジナルカクテル",
+                    tags: ["ジャズライブ", "大人の空間", "地酒カクテル"],
+                    timeRecommendation: "60-120分",
+                    lat: 36.5590, // ← 追加
+                    lng: 139.9000, // ← 追加
+                    address: "栃木県宇都宮市" // ← 追加
+                },
+                {
+                    id: 'cocktail_2',
+                    name: "SUKATTO",
+                    category: "cocktail",
+                    status: "available",
+                    statusText: "雰囲気◎",
+                    distance: "650m",
+                    walkTime: "8分",
+                    waitTime: "予約推奨",
+                    rating: 4.2,
+                    reviews: 567,
+                    priceRange: "¥1000-2000",
+                    specialty: "隠れ家カクテル",
+                    realtimeInfo: "カクテルの種類も豊富で、バーテンダーの方が一つ一つ手作り | 18:00〜営業",
+                    tags: ["隠れ家", "手作りカクテル", "アットホーム"],
+                    timeRecommendation: "90-150分",
+                    lat: 36.5565, // ← 追加
+                    lng: 139.8970, // ← 追加
+                    address: "栃木県宇都宮市" // ← 追加
+                }
+            ],
+            jazz: [
+                {
+                    id: 'jazz_1',
+                    name: "KINDAIJIN",
+                    category: "jazz",
+                    status: "busy",
+                    statusText: "聖地",
+                    distance: "900m",
+                    walkTime: "12分",
+                    waitTime: "19:00〜営業",
+                    rating: 4.8,
+                    reviews: 850,
+                    priceRange: "¥2000-3500",
+                    specialty: "宇都宮ジャズの聖地",
+                    realtimeInfo: "1960年創業の老舗 | 宇都宮ジャズシーンの歴史そのもの | 本日のセット: 19:30/21:00",
+                    tags: ["老舗1960年〜", "ジャズの聖地", "歴史的価値"],
+                    timeRecommendation: "120-180分",
+                    lat: 36.5610, // ← 追加
+                    lng: 139.8965, // ← 追加
+                    address: "栃木県宇都宮市" // ← 追加
+                }
+            ]
+        };
+        
+        let map; // 追加
+        let markers = []; // 追加
+        let currentFilter = 'all';
+        let currentModal = null;
+        let votedReviews = {};
+        let routeControl = null; // 追加
+        let isRouteMode = false; // 追加
+        let selectedPlacesForRoute = []; // 追加
+        let placesData = []; // ★ 追加
+        let userLocation = null; // ★ 追加
+        
+        // 既存のDOMContentLoaded部分を以下のように修正
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadAppConfig(); // ← 最初に設定を読み込む
+            createParticles();
+            initializeCategoryFilter(); // ← カテゴリーフィルター生成
+            initializeMap();
+            initializeFilters();
+            getUserLocation();
+        });
+
+
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        console.log('現在地取得成功:', userLocation);
+                        loadPlaces(); // データ読み込み
+                    },
+                    (error) => {
+                        console.warn('位置情報取得失敗:', error);
+                        // デフォルトで宇都宮駅を使用
+                        userLocation = { lat: 36.5579, lng: 139.8984 };
+                        loadPlaces();
+                    }
+                );
+            } else {
+                console.warn('Geolocationがサポートされていません');
+                userLocation = { lat: 36.5579, lng: 139.8984 };
+                loadPlaces();
+            }
+        }
+
+        // サーバーから店舗データを取得
+        async function loadPlaces() {
+            try {
+                let url = `${API_URL}/places?category=${currentFilter}`;
+                
+                if (userLocation) {
+                    url += `&lat=${userLocation.lat}&lng=${userLocation.lng}`;
+                }
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch places');
+                }
+                
+                placesData = await response.json();
+                
+                // 既存のマーカーをクリア
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                
+                // 新しいマーカーを追加
+                placesData.forEach(place => {
+                    if (place.lat && place.lng) {
+                        createMarker(place);
+                    }
+                });
+                
+                console.log(`${placesData.length}件の店舗を読み込みました`);
+
+                setTimeout(() => {
+                    console.log('📍 マーカー数:', markers.length);
+                    markers.forEach((marker, index) => {
+                        const element = marker.getElement();
+                        console.log(`マーカー${index}:`, element ? '要素あり' : '要素なし', marker.placeData.name);
+                    });
+                }, 3000);
+                
+            } catch (error) {
+                console.error('店舗データ取得エラー:', error);
+                console.log('フォールバックデータを使用します');
+                
+                // サーバーが動いていない場合は既存のsamplePlacesを使用
+                const fallbackPlaces = [];
+                Object.values(samplePlaces).forEach(categoryPlaces => {
+                    fallbackPlaces.push(...categoryPlaces);
+                });
+                
+                fallbackPlaces.forEach(place => {
+                    if (place.lat && place.lng) {
+                        createMarker(place);
+                    }
+                });
+                
+                showToast('⚠️ サーバーに接続できません（オフラインモード）');
+            }
+        }
+        
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 既存のinitializeMap()関数を以下のように修正
+        function initializeMap() {
+            const center = appConfig ? 
+                [appConfig.map.center.lat, appConfig.map.center.lng] :
+                [36.5579, 139.8984];
+            const zoom = appConfig ? appConfig.map.zoom : 14;
+    
+            map = L.map('map', {
+                center: center,
+                zoom: zoom,
+                zoomControl: false,
+                tap: true,
+                tapTolerance: 50,
+                touchZoom: true,
+                dragging: true,
+                boxZoom: false,
+                doubleClickZoom: true,
+                keyboard: false,
+                scrollWheelZoom: true,
+                preferCanvas: false,
+                trackResize: true,
+                tapHold: false
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            map.whenReady(function() {
+                console.log('🗺️ マップ準備完了');
+            });
+        }
+        // カスタムマーカーを作成
+        function createMarker(place) {
+            const emoji = place.category === 'gyoza' ? '🥟' : 
+                        place.category === 'cocktail' ? '🍸' : '🎷';
+
+            const statusClass = place.status === 'available' ? 'marker-available' :
+                            place.status === 'busy' ? 'marker-busy' : 'marker-normal';
+    
+            const distanceHtml = place.distance ? 
+                `<span class="marker-distance">${place.distance}</span>` : '';
+
+            const iconHtml = `
+                <div class="custom-marker ${statusClass}">
+                    <span class="marker-emoji">${emoji}</span>
+                    ${distanceHtml}
+                </div>
+            `;
+
+            const customIcon = L.divIcon({
+                html: iconHtml,
+                className: 'custom-marker-wrapper',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30],
+                popupAnchor: [0, -30]
+            });
+
+            const marker = L.marker([place.lat, place.lng], { 
+                icon: customIcon,
+                interactive: true,
+                bubblingMouseEvents: false,
+                keyboard: false
+            }).addTo(map);
+
+            // ★ 重要: マーカーが地図に追加された直後にイベントを設定
+            setTimeout(() => {
+                const markerElement = marker.getElement();
+                if (markerElement) {
+                    // スタイル設定
+                    markerElement.style.pointerEvents = 'auto';
+                    markerElement.style.cursor = 'pointer';
+                    markerElement.style.touchAction = 'manipulation';
+                    markerElement.style.zIndex = '1000';
+            
+                    // タップハンドラ
+                    const handleClick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+    
+                        if (isRouteMode) {
+                            togglePlaceSelection(place);
+                        } else {
+                            closeQuickInfo();
+                            setTimeout(() => {
+                                showQuickInfo(place);
+                            }, 350);
+                        }
+                    };
+            
+                    // 全てのイベントタイプに対応
+                    markerElement.addEventListener('touchstart', handleClick, { passive: false });
+                    markerElement.addEventListener('touchend', handleClick, { passive: false });
+                    markerElement.addEventListener('click', handleClick);
+            
+                    // 子要素にもイベントを設定
+                    const markerIcon = markerElement.querySelector('.custom-marker');
+                    if (markerIcon) {
+                        markerIcon.addEventListener('touchstart', handleClick, { passive: false });
+                        markerIcon.addEventListener('touchend', handleClick, { passive: false });
+                        markerIcon.addEventListener('click', handleClick);
+                    }
+            
+                    console.log('✅ マーカーイベント設定完了:', place.name);
+                } else {
+                    console.error('❌ マーカー要素が見つかりません:', place.name);
+                }
+            }, 100); // 100ms待ってからイベントを設定
+
+            marker.placeData = place;
+            markers.push(marker);
+        }
+        
+        // ★★★ ここから追加 ★★★
+        
+        // フィルター初期化（上書き）
+        function initializeFilters() {
+            const filterButtons = document.querySelectorAll('.category-filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    currentFilter = button.dataset.category;
+                    
+                    // サーバーデータがあれば再取得
+                    if (placesData.length > 0) {
+                        loadPlaces();
+                    } else {
+                        // フォールバックはマーカー表示のみ更新
+                        updateMarkerVisibility();
+                    }
+                });
+            });
+        }
+        
+        // ★★★ ここまで追加 ★★★    
+        function toggleSettings() {
+            const content = document.getElementById('settingsContent');
+            const toggle = document.getElementById('settingsToggle');
+            
+            content.classList.toggle('active');
+            toggle.classList.toggle('active');
+            
+            const isOpen = content.classList.contains('active');
+            toggle.setAttribute('aria-label', isOpen ? '設定パネルを閉じる' : '設定パネルを開く');
+        }
+        
+        function showQuickInfo(place) {
+            console.log('🟡 showQuickInfo呼び出し:', place.name); // デバッグ用
+    
+            // 既存のポップアップを完全削除
+            closeQuickInfo();
+    
+            const popup = document.createElement('div');
+            popup.className = 'quick-info-popup';
+            popup.id = 'quickInfoPopup';
+            popup.style.zIndex = '10000'; // 確実に最前面に
+    
+            const categoryNames = { gyoza: '餃子', cocktail: 'カクテル', jazz: 'ジャズ' };
+            const statusText = {
+                available: '🟢 空席あり',
+                normal: '🟡 普通',
+                busy: '🔴 混雑中'
+            };
+    
+            popup.innerHTML = `
+                <div class="quick-info-content">
+                    <div class="quick-info-header">
+                        <span class="quick-category">${categoryNames[place.category]}</span>
+                        <button class="quick-close" onclick="closeQuickInfo()">×</button>
+                    </div>
+            
+                    <h3 class="quick-name">${place.name}</h3>
+            
+                    <div class="quick-status">${statusText[place.status]}</div>
+            
+                    <div class="quick-time">
+                        ⏱️ 滞在目安: <strong>${place.stay_time || place.timeRecommendation}</strong>
+                    </div>
+            
+                    <div class="quick-rating">
+                        <span class="quick-stars">${'★'.repeat(Math.floor(place.rating))}${'☆'.repeat(5 - Math.floor(place.rating))}</span>
+                        <span>${place.rating} (${place.review_count || place.reviews}件)</span>
+                    </div>
+            
+                    <div class="quick-menu">
+                        <div class="menu-photo" style="background-image: url('${place.menu_photo || place.menuPhoto || ''}')"></div>
+                        <div class="menu-text">
+                            <strong>${place.specialty}</strong>
+                            <span>${place.price_range || place.priceRange}</span>
+                        </div>
+                    </div>
+            
+                    <button class="btn-detail" onclick="showDetailSheet('${place.id}')">
+                        詳しく見る →
+                    </button>
+                </div>
+            `;
+    
+            document.body.appendChild(popup);
+            console.log('🟣 ポップアップDOM追加完了'); // デバッグ用
+    
+            // 強制再描画
+            void popup.offsetHeight;
+    
+            // activeクラス追加
+            requestAnimationFrame(() => {
+                popup.classList.add('active');
+                console.log('🔵 activeクラス追加完了'); // デバッグ用
+            });
+    
+            // イベントリスナー（簡略化版）
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup || e.target.classList.contains('quick-close')) {
+                    closeQuickInfo();
+                }
+            }, true); // キャプチャフェーズで処理
+    
+            const quickContent = popup.querySelector('.quick-info-content');
+            if (quickContent) {
+                quickContent.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+        }
+
+        function closeQuickInfo() {
+            console.log('🔴 closeQuickInfo呼び出し'); // デバッグ用
+            const popup = document.getElementById('quickInfoPopup');
+            if (popup) {
+                popup.classList.remove('active');
+                setTimeout(() => {
+                    if (popup.parentNode) {
+                        popup.remove();
+                        console.log('🗑️ ポップアップ削除完了'); // デバッグ用
+                    }
+                }, 300);
+            }
+        }
+
+        // 3段階目の詳細シート表示
+        // index.htmlのshowDetailModal関数を以下に置き換え
+
+        async function showDetailSheet(placeId) {
+            closeQuickInfo();
+    
+            try {
+                // 店舗情報を取得
+                const response = await fetch(`${API_URL}/places/${placeId}`);
+                if (!response.ok) throw new Error('Failed to fetch place details');
+        
+                const place = await response.json();
+        
+                // SNS投稿を取得
+                let socialPostsHTML = '';
+                try {
+                    const socialResponse = await fetch(`${API_URL}/store/${placeId}/social-posts`);
+                    if (socialResponse.ok) {
+                        const socialData = await socialResponse.json();
+                        socialPostsHTML = generateSocialPostsHTML(socialData);
+                    }
+                } catch (error) {
+                    console.log('SNS投稿取得スキップ:', error);
+                }
+        
+                // 詳細モーダルを表示（SNS投稿を含む）
+                showDetailModalWithSocial(place, socialPostsHTML);
+        
+            } catch (error) {
+                console.error('詳細情報取得エラー:', error);
+        
+                // フォールバック
+                let foundPlace = null;
+                Object.values(samplePlaces).forEach(categoryPlaces => {
+                    categoryPlaces.forEach(p => {
+                        if (p.id === placeId) foundPlace = p;
+                    });
+                });
+        
+                if (foundPlace) {
+                    showPlaceModal(foundPlace);
+                } else {
+                    showToast('⚠️ 詳細情報の読み込みに失敗しました');
+                }
+            }
+        }
+
+        // SNS投稿のHTML生成
+        function generateSocialPostsHTML(socialData) {
+            if (!socialData.posts) return '';
+    
+            let html = '<div class="social-posts-section">';
+    
+            // Twitter投稿
+            if (socialData.has_twitter && socialData.posts.twitter.length > 0) {
+                html += `
+                    <div class="social-section">
+                        <h4 style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <span style="width: 30px; height: 30px; background: #1DA1F2; color: white; 
+                                         border-radius: 50%; display: flex; align-items: center; 
+                                         justify-content: center; font-size: 14px;">𝕏</span>
+                            最新のツイート
+                        </h4>
+                        <div class="social-posts-list">
+                `;
+        
+                socialData.posts.twitter.forEach(tweet => {
+                    const timeAgo = getTimeAgo(tweet.created_at);
+                    html += `
+                        <div class="social-post-item">
+                            <div class="post-header">
+                                <span style="font-weight: 600; color: #1DA1F2;">${tweet.author}</span>
+                                <span style="font-size: 12px; color: #999;">${timeAgo}</span>
+                            </div>
+                            <div class="post-text">${escapeHtml(tweet.text)}</div>
+                            <div class="post-stats">
+                                <span>❤️ ${tweet.likes}</span>
+                                <span>🔄 ${tweet.retweets}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+        
+                html += `</div></div>`;
+            }
+    
+            // Instagram投稿
+            if (socialData.has_instagram && socialData.posts.instagram.length > 0) {
+                html += `
+                    <div class="social-section" style="margin-top: 20px;">
+                        <h4 style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <span style="width: 30px; height: 30px; 
+                                         background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+                                         color: white; border-radius: 50%; display: flex; align-items: center; 
+                                         justify-content: center; font-size: 14px;">📷</span>
+                            最新の投稿
+                        </h4>
+                        <div class="social-posts-list">
+                `;
+        
+                socialData.posts.instagram.forEach(post => {
+                    const timeAgo = getTimeAgo(post.timestamp);
+                    html += `
+                        <div class="social-post-item">
+                            <div class="post-header">
+                                <span style="font-weight: 600; color: #E4405F;">@${post.username}</span>
+                                <span style="font-size: 12px; color: #999;">${timeAgo}</span>
+                            </div>
+                            ${post.media_url ? `<img src="${post.media_url}" style="width: 100%; border-radius: 10px; margin: 10px 0;" alt="Instagram投稿">` : ''}
+                            <div class="post-text">${escapeHtml(post.caption)}</div>
+                            <div class="post-stats">
+                                <span>❤️ ${post.likes}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+        
+                html += `</div></div>`;
+            }
+    
+            html += '</div>';
+    
+            // SNS投稿がない場合
+            if (!socialData.has_twitter && !socialData.has_instagram) {
+                return '';
+            }
+    
+            return html;
+        }
+
+        // 時間差を計算
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const past = new Date(timestamp);
+            const diffMs = now - past;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+    
+            if (diffMins < 60) return `${diffMins}分前`;
+            if (diffHours < 24) return `${diffHours}時間前`;
+            return `${diffDays}日前`;
+        }
+
+        // SNS投稿を含む詳細モーダル表示
+        function showDetailModalWithSocial(place, socialPostsHTML) {
+            if (currentModal) {
+                document.body.removeChild(currentModal);
+            }
+
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+
+            const categoryNames = { gyoza: '餃子', cocktail: 'カクテル', jazz: 'ジャズ' };
+            const stars = '★'.repeat(Math.floor(place.rating)) + '☆'.repeat(5 - Math.floor(place.rating));
+
+            // 人気メニューHTML
+            const menusHtml = place.popular_menus && place.popular_menus.length > 0 ? 
+                place.popular_menus.map(menu => 
+                    `<div class="menu-item">
+                        <span class="menu-name">${menu.name}</span>
+                        <span class="menu-price">${menu.price}</span>
+                    </div>`
+                ).join('') : '<p style="color: #999;">メニュー情報はありません</p>';
+
+            // 口コミHTML
+            const reviewsHtml = place.recent_reviews && place.recent_reviews.length > 0 ?
+                place.recent_reviews.map(review => 
+                    `<div class="review-mini">
+                        <div class="review-mini-header">
+                            <span>${review.author_name}</span>
+                            <span class="review-mini-rating">${'★'.repeat(review.rating)}</span>
+                        </div>
+                        <p>${review.content.substring(0, 50)}...</p>
+                    </div>`
+                ).join('') : '<p style="color: #999;">口コミはまだありません</p>';
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-close" onclick="closePlaceModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="place-card-modal">
+                            <div class="card-header">
+                                <div>
+                                    <div class="place-name">${place.name}</div>
+                                    <div class="rating">
+                                        <span class="stars">${stars}</span>
+                                        <span>${place.rating} (${place.review_count || place.reviews})</span>
+                                    </div>
+                                </div>
+                                <span class="category-badge category-${place.category}">${categoryNames[place.category]}</span>
+                            </div>
+            
+                            <div class="detail-priority-info">
+                                <div class="priority-item">
+                                    <strong>⏱️ 滞在目安</strong>
+                                    <span>${place.stay_time || place.timeRecommendation}</span>
+                                </div>
+                                <div class="priority-item">
+                                    <strong>📊 混雑状況</strong>
+                                    <span>${place.realtime_info || place.realtimeInfo}</span>
+                                </div>
+                            </div>
+                    
+                            ${socialPostsHTML ? `
+                                <div class="detail-section">
+                                    <h4>📱 SNS最新情報</h4>
+                                    ${socialPostsHTML}
+                                </div>
+                            ` : ''}
+            
+                            <div class="detail-section">
+                                <h4>人気メニュー</h4>
+                                <div class="menu-list">${menusHtml}</div>
+                            </div>
+            
+                            <div class="detail-section">
+                                <h4>最近の口コミ</h4>
+                                <div class="reviews-mini">${reviewsHtml}</div>
+                                <button class="btn-secondary" onclick="showReviews('${place.id}', '${place.name}')" style="width: 100%; margin-top: 10px;">
+                                    すべての口コミを見る
+                                </button>
+                            </div>
+            
+                            <div class="detail-description">
+                                <p>${place.description || '店舗情報はありません'}</p>
+                            </div>
+            
+                            <div class="action-buttons">
+                                <button class="btn-primary" onclick="window.open('${place.google_maps_url}', '_blank')">
+                                    🗺️ Google Mapsで見る
+                                </button>
+                                <button class="btn-secondary" onclick="showReviewForm('${place.id}', '${place.name}')">
+                                    ✏️ 口コミを書く
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            currentModal = modal;
+
+            // 背景タップで閉じる(スマホ対応)
+            modal.addEventListener('touchstart', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            }, { passive: true });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            });
+
+            // モーダルコンテンツのイベント伝播を停止
+            const modalContent = modal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.addEventListener('touchstart', (e) => {
+                    e.stopPropagation();
+                }, { passive: true });
+        
+                modalContent.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+        }
+
+        function showDetailModal(place) {
+            if (currentModal) {
+                document.body.removeChild(currentModal);
+            }
+    
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+    
+            const categoryNames = { gyoza: '餃子', cocktail: 'カクテル', jazz: 'ジャズ' };
+            const stars = '★'.repeat(Math.floor(place.rating)) + '☆'.repeat(5 - Math.floor(place.rating));
+    
+            // 人気メニューHTML
+            const menusHtml = place.popular_menus && place.popular_menus.length > 0 ? 
+                place.popular_menus.map(menu => 
+                    `<div class="menu-item">
+                        <span class="menu-name">${menu.name}</span>
+                        <span class="menu-price">${menu.price}</span>
+                    </div>`
+                ).join('') : '<p style="color: #999;">メニュー情報はありません</p>';
+    
+            // 口コミHTML
+            const reviewsHtml = place.recent_reviews && place.recent_reviews.length > 0 ?
+                place.recent_reviews.map(review => 
+                    `<div class="review-mini">
+                        <div class="review-mini-header">
+                            <span>${review.author_name}</span>
+                            <span class="review-mini-rating">${'★'.repeat(review.rating)}</span>
+                        </div>
+                        <p>${review.content.substring(0, 50)}...</p>
+                        </div>`
+                ).join('') : '<p style="color: #999;">口コミはまだありません</p>';
+    
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-close" onclick="closePlaceModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="place-card-modal">
+                            <div class="card-header">
+                                <div>
+                                    <div class="place-name">${place.name}</div>
+                                    <div class="rating">
+                                        <span class="stars">${stars}</span>
+                                        <span>${place.rating} (${place.review_count || place.reviews})</span>
+                                    </div>
+                                </div>
+                                <span class="category-badge category-${place.category}">${categoryNames[place.category]}</span>
+                            </div>
+                    
+                            <div class="detail-priority-info">
+                                <div class="priority-item">
+                                    <strong>⏱️ 滞在目安</strong>
+                                    <span>${place.stay_time || place.timeRecommendation}</span>
+                                </div>
+                                <div class="priority-item">
+                                    <strong>📊 混雑状況</strong>
+                                    <span>${place.realtime_info || place.realtimeInfo}</span>
+                                </div>
+                            </div>
+                    
+                            <div class="detail-section">
+                                <h4>人気メニュー</h4>
+                                <div class="menu-list">${menusHtml}</div>
+                            </div>
+                    
+                            <div class="detail-section">
+                                <h4>最近の口コミ</h4>
+                                <div class="reviews-mini">${reviewsHtml}</div>
+                                <button class="btn-secondary" onclick="showReviews('${place.id}', '${place.name}')" style="width: 100%; margin-top: 10px;">
+                                    すべての口コミを見る
+                                </button>
+                            </div>
+                    
+                            <div class="detail-description">
+                                <p>${place.description || '店舗情報はありません'}</p>
+                            </div>
+                    
+                            <div class="action-buttons">
+                                <button class="btn-primary" onclick="window.open('${place.google_maps_url}', '_blank')">
+                                    🗺️ Google Mapsで見る
+                                </button>
+                                <button class="btn-secondary" onclick="showReviewForm('${place.id}', '${place.name}')">
+                                    口コミを書く
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            document.body.appendChild(modal);
+            currentModal = modal;
+    
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closePlaceModal();
+            });
+        }
+
+        
+        // ★★★ ここまで追加 ★★★
+
+        function showPlaceModal(place) {
+            if (currentModal) {
+                document.body.removeChild(currentModal);
+            }
+            
+            const modal = createPlaceModal(place);
+            document.body.appendChild(modal);
+            currentModal = modal;
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            });
+            
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closePlaceModal();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+
+        // モーダルからルートに追加
+        function addToRoute(placeId) {
+            closePlaceModal();
+    
+            let foundPlace = null;
+            Object.values(samplePlaces).forEach(categoryPlaces => {
+                categoryPlaces.forEach(place => {
+                    if (place.id === placeId) {
+                        foundPlace = place;
+                    }
+                });
+            });
+    
+            if (foundPlace && !selectedPlacesForRoute.find(p => p.id === placeId)) {
+                selectedPlacesForRoute.push(foundPlace);
+                updateSelectedPlacesDisplay();
+        
+                if (!isRouteMode) {
+                    toggleRouteMode();
+                }
+        
+                showToast(`📍 ${foundPlace.name}をルートに追加しました`);
+            } else if (selectedPlacesForRoute.find(p => p.id === placeId)) {
+                showToast('⚠️ 既にルートに追加されています');
+            }
+        }
+        
+        function createPlaceModal(place) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            const categoryClass = `category-${place.category}`;
+            const statusClass = `status-${place.status}`;
+            const stars = '★'.repeat(Math.floor(place.rating)) + '☆'.repeat(5 - Math.floor(place.rating));
+            
+            const categoryNames = {
+                gyoza: '餃子',
+                cocktail: 'カクテル',
+                jazz: 'ジャズ'
+            };
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-close" onclick="closePlaceModal()" aria-label="モーダルを閉じる">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="place-card-modal">
+                            <div class="card-header">
+                                <div>
+                                    <div class="place-name">${place.name}</div>
+                                    <div class="rating">
+                                        <span class="stars">${stars}</span>
+                                        <span>${place.rating} (${place.reviews.toLocaleString()})</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="category-badge ${categoryClass}">${categoryNames[place.category]}</span>
+                                    <span class="status-badge ${statusClass}">${place.statusText}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-icon">📍</div>
+                                    <span>${place.distance} | 徒歩${place.walkTime}</span>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">⏰</div>
+                                    <span>待ち: ${place.waitTime}</span>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">💰</div>
+                                    <span>${place.priceRange}</span>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">${place.category === 'gyoza' ? '🥟' : place.category === 'cocktail' ? '🍸' : '🎷'}</div>
+                                    <span>${place.specialty}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="realtime-info">
+                                <h4>📡 現在情報 <small>3分前更新</small></h4>
+                                <p>${place.realtimeInfo}</p>
+                            </div>
+                            
+                            <div class="social-feedback" onclick="showReviews('${place.id}', '${place.name}')">
+                                <h4>💬 みんなの口コミ</h4>
+                                <p>このお店の口コミを見る（タップで一覧表示）</p>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button class="btn-primary" onclick="selectPlace('${place.name}', '${place.category}')">
+                                    この場所に決定
+                                </button>
+                                <button class="btn-secondary" onclick="addToRoute('${place.id}')">
+                                    ルートに追加
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return modal;
+        }
+        
+        function closePlaceModal() {
+            if (currentModal) {
+                document.body.removeChild(currentModal);
+                currentModal = null;
+            }
+        }
+        
+        async function showReviews(placeId, placeName) {
+            closePlaceModal();
+    
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+    
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 style="margin: 0; color: #333; font-size: 18px;">${placeName} の口コミ</h2>
+                        <button class="modal-close" onclick="closePlaceModal()" aria-label="口コミを閉じる">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>口コミを読み込み中...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            document.body.appendChild(modal);
+            currentModal = modal;
+    
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            });
+    
+            try {
+                // この店舗の口コミのみを取得
+                const response = await fetch(`${API_URL}/reviews?place_id=${placeId}`);
+                const allReviews = await response.json();
+        
+                displayReviews(allReviews, placeId, placeName);
+            } catch (error) {
+                console.error('口コミ取得エラー:', error);
+                displayReviewsError(placeId, placeName);
+            }
+        }
+        
+        function displayReviews(reviews, placeId, placeName) {
+            const modalBody = currentModal.querySelector('.modal-body');
+            
+            if (reviews.length === 0) {
+                modalBody.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <p style="color: #666; margin-bottom: 20px;">まだ口コミがありません</p>
+                        <button class="btn-primary" onclick="showReviewForm('${placeId}', '${placeName}')" style="width: auto; padding: 12px 24px;">
+                            最初の口コミを投稿する
+                        </button>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button class="btn-secondary" onclick="closePlaceModal(); setTimeout(() => findPlaceById('${placeId}'), 100);" style="width: auto; padding: 10px 20px;">
+                            店舗情報に戻る
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const reviewsHTML = reviews.map(review => {
+                const isVoted = votedReviews[review.id] || false;
+                return `
+                    <div class="review-item" data-review-id="${review.id}">
+                        <div class="review-header">
+                            <span class="review-author">${escapeHtml(review.author_name)}</span>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="review-date">${formatDate(review.created_at)}</span>
+                                <button onclick="showDeleteConfirm(${review.id}, '${escapeHtml(review.author_name)}')" 
+                                        style="background: #ff4444; color: white; border: none; 
+                                               padding: 4px 10px; border-radius: 12px; cursor: pointer;
+                                               font-size: 11px; transition: all 0.3s ease;"
+                                        onmouseover="this.style.background='#cc0000'"
+                                        onmouseout="this.style.background='#ff4444'">
+                                    🗑️ 削除
+                                </button>
+                            </div>
+                        </div>
+                        <div class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                        <div class="review-text">${escapeHtml(review.content)}</div>
+                        ${review.image_path ? `<img src="${review.image_path}" class="review-image" alt="口コミ画像">` : ''}
+                        <button class="helpful-button ${isVoted ? 'voted' : ''}" onclick="markHelpful(${review.id}, this)">
+                            👍 参考になった (${review.helpful_count})
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            
+            modalBody.innerHTML = `
+                <div class="reviews-list">
+                    ${reviewsHTML}
+                </div>
+                <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <button class="btn-primary" onclick="showReviewForm('${placeId}', '${placeName}')" style="width: auto; padding: 10px 20px; margin-bottom: 10px;">
+                        口コミを投稿する
+                    </button>
+                    <br>
+                    <button class="btn-secondary" onclick="closePlaceModal(); setTimeout(() => findPlaceById('${placeId}'), 100);" style="width: auto; padding: 10px 20px;">
+                        店舗情報に戻る
+                    </button>
+                </div>
+            `;
+        }
+        
+        function showDeleteConfirm(reviewId, authorName) {
+            const deleteModal = document.createElement('div');
+            deleteModal.className = 'modal';
+            deleteModal.style.zIndex = '10000';
+            
+            deleteModal.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <h2 style="margin: 0; color: #333; font-size: 18px;">🗑️ 口コミを削除</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                            <p style="color: #856404; margin: 0; font-size: 14px; line-height: 1.6;">
+                                ⚠️ この操作は取り消せません。<br>
+                                口コミと添付画像が完全に削除されます。
+                            </p>
+                        </div>
+                        
+                        <form id="deleteForm">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">
+                                    削除方法を選択
+                                </label>
+                                <select id="deleteMethod" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                                    <option value="author">投稿者として削除</option>
+                                    <option value="admin">管理者として削除</option>
+                                </select>
+                            </div>
+                            
+                            <div id="authorField" style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">
+                                    投稿者名を入力
+                                </label>
+                                <input type="text" id="deleteAuthorName" placeholder="投稿時の名前" 
+                                       style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                                <small style="color: #666; font-size: 12px;">※ 投稿時の名前を入力してください</small>
+                            </div>
+                            
+                            <div id="adminField" style="margin-bottom: 15px; display: none;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">
+                                    管理者パスワード
+                                </label>
+                                <input type="password" id="deleteAdminPassword" placeholder="管理者パスワード" 
+                                       style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                            </div>
+                            
+                            <div id="deleteMessage" style="margin-bottom: 15px;"></div>
+                            
+                            <div style="display: flex; gap: 10px;">
+                                <button type="submit" style="
+                                    flex: 1; background: #ff4444; color: white; border: none;
+                                    padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
+                                    transition: all 0.3s ease;
+                                ">削除する</button>
+                                <button type="button" onclick="this.closest('.modal').remove()" style="
+                                    flex: 1; background: #e2e8f0; color: #4a5568; border: none;
+                                    padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
+                                ">キャンセル</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(deleteModal);
+            
+            // 削除方法の切り替え
+            const methodSelect = deleteModal.querySelector('#deleteMethod');
+            const authorField = deleteModal.querySelector('#authorField');
+            const adminField = deleteModal.querySelector('#adminField');
+            
+            methodSelect.addEventListener('change', function() {
+                if (this.value === 'admin') {
+                    authorField.style.display = 'none';
+                    adminField.style.display = 'block';
+                } else {
+                    authorField.style.display = 'block';
+                    adminField.style.display = 'none';
+                }
+            });
+            
+            // 削除フォーム送信
+            const deleteForm = deleteModal.querySelector('#deleteForm');
+            deleteForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const method = methodSelect.value;
+                const messageDiv = deleteModal.querySelector('#deleteMessage');
+                
+                let requestBody = {};
+                
+                if (method === 'author') {
+                    const inputName = deleteModal.querySelector('#deleteAuthorName').value.trim();
+                    if (!inputName) {
+                        messageDiv.innerHTML = '<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">投稿者名を入力してください</div>';
+                        return;
+                    }
+                    requestBody.author_name = inputName;
+                } else {
+                    const password = deleteModal.querySelector('#deleteAdminPassword').value;
+                    if (!password) {
+                        messageDiv.innerHTML = '<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">管理者パスワードを入力してください</div>';
+                        return;
+                    }
+                    requestBody.admin_password = password;
+                }
+                
+                messageDiv.innerHTML = '<div style="text-align: center; color: #667eea;">削除中...</div>';
+                
+                try {
+                    const response = await fetch(`${API_URL}/reviews/${reviewId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        messageDiv.innerHTML = '<div style="padding: 10px; background: #d4edda; color: #155724; border-radius: 8px; text-align: center;">削除しました</div>';
+                        
+                        // 削除されたレビューをDOMから削除
+                        const reviewElement = document.querySelector(`[data-review-id="${reviewId}"]`);
+                        if (reviewElement) {
+                            reviewElement.style.animation = 'fadeOut 0.5s ease forwards';
+                            setTimeout(() => reviewElement.remove(), 500);
+                        }
+                        
+                        setTimeout(() => {
+                            deleteModal.remove();
+                        }, 1500);
+                    } else {
+                        messageDiv.innerHTML = `<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">${data.error || '削除に失敗しました'}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    messageDiv.innerHTML = '<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">サーバーに接続できませんでした</div>';
+                }
+            });
+            
+            deleteModal.addEventListener('click', (e) => {
+                if (e.target === deleteModal) {
+                    deleteModal.remove();
+                }
+            });
+        }
+        
+        function displayReviewsError(placeId, placeName) {
+            const modalBody = currentModal.querySelector('.modal-body');
+            modalBody.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <p style="color: #666; margin-bottom: 20px;">口コミの読み込みに失敗しました</p>
+                    <p style="color: #999; font-size: 14px; margin-bottom: 20px;">サーバーに接続できませんでした。<br>口コミ機能を使用するには、Node.jsサーバーを起動してください。</p>
+                    <button class="btn-secondary" onclick="closePlaceModal(); setTimeout(() => findPlaceById('${placeId}'), 100);">
+                        店舗情報に戻る
+                    </button>
+                </div>
+            `;
+        }
+        
+        async function markHelpful(reviewId, button) {
+            if (button.classList.contains('voted')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/reviews/${reviewId}/helpful`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    button.classList.add('voted');
+                    votedReviews[reviewId] = true;
+                    const currentCount = parseInt(button.textContent.match(/\d+/)[0]);
+                    button.textContent = `👍 参考になった (${currentCount + 1})`;
+                } else {
+                    alert(data.error || '既に投票済みです');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('通信エラーが発生しました');
+            }
+        }
+        
+        function showReviewForm(placeId, placeName) {
+            console.log('🏪 showReviewForm 呼び出し:', { placeId, placeName }); // ← デバッグ用
+    
+            if (!placeId) {
+                alert('エラー: 店舗IDが取得できませんでした');
+                return;
+            }
+    
+            closePlaceModal();
+    
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+    
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 style="margin: 0; color: #333; font-size: 18px;">✏️ ${placeName} の口コミを投稿</h2>
+                        <button class="modal-close" onclick="closePlaceModal()" aria-label="投稿フォームを閉じる">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="reviewForm" style="padding: 10px 0;">
+                            <!-- 隠しフィールドとして place_id を保持 -->
+                            <input type="hidden" id="placeIdHidden" value="${placeId}">
+                    
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">お名前 *</label>
+                                <input type="text" id="authorName" required placeholder="山田太郎" style="
+                                    width: 100%; padding: 10px; border: 2px solid #e0e0e0;
+                                    border-radius: 8px; font-size: 14px;
+                                ">
+                            </div>
+                    
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">評価 *</label>
+                                <div style="display: flex; gap: 10px; flex-direction: row-reverse; justify-content: flex-end; font-size: 30px;">
+                                    <input type="radio" id="star5" name="rating" value="5" required style="display: none;">
+                                    <label for="star5" style="cursor: pointer; color: #ddd; transition: color 0.2s;">★</label>
+                                    <input type="radio" id="star4" name="rating" value="4" style="display: none;">
+                                    <label for="star4" style="cursor: pointer; color: #ddd; transition: color 0.2s;">★</label>
+                                    <input type="radio" id="star3" name="rating" value="3" style="display: none;">
+                                    <label for="star3" style="cursor: pointer; color: #ddd; transition: color 0.2s;">★</label>
+                                    <input type="radio" id="star2" name="rating" value="2" style="display: none;">
+                                    <label for="star2" style="cursor: pointer; color: #ddd; transition: color 0.2s;">★</label>
+                                    <input type="radio" id="star1" name="rating" value="1" style="display: none;">
+                                    <label for="star1" style="cursor: pointer; color: #ddd; transition: color 0.2s;">★</label>
+                                </div>
+                            </div>
+                    
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">口コミ内容 *</label>
+                                <textarea id="content" required placeholder="ご感想をお聞かせください..." style="
+                                    width: 100%; min-height: 100px; padding: 10px; border: 2px solid #e0e0e0;
+                                    border-radius: 8px; font-size: 14px; resize: vertical;
+                                "></textarea>
+                            </div>
+                    
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">画像を添付 (任意)</label>
+                                <input type="file" id="imageInput" accept="image/*" style="
+                                    padding: 10px; border: 2px dashed #ccc; border-radius: 8px;
+                                    width: 100%; cursor: pointer;
+                                ">
+                                <img id="previewImage" style="max-width: 200px; max-height: 200px; margin-top: 10px; border-radius: 8px; display: none;">
+                            </div>
+                    
+                            <div id="formMessage" style="margin-bottom: 15px;"></div>
+                    
+                            <button type="submit" class="btn-primary" style="width: 100%;">
+                                口コミを投稿
+                            </button>
+                            <button type="button" class="btn-secondary" onclick="closePlaceModal(); setTimeout(() => showReviews('${placeId}', '${placeName}'), 100);" style="width: 100%; margin-top: 10px;">
+                                キャンセル
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+    
+            document.body.appendChild(modal);
+            currentModal = modal;
+    
+            // 星評価のインタラクション
+            const ratingInputs = modal.querySelectorAll('input[name="rating"]');
+            const ratingLabels = modal.querySelectorAll('label[for^="star"]');
+    
+            ratingInputs.forEach((input, index) => {
+                input.addEventListener('change', function() {
+                    ratingLabels.forEach((label, i) => {
+                        if (i >= ratingInputs.length - index - 1) {
+                            label.style.color = '#ffd700';
+                        } else {
+                            label.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+    
+            ratingLabels.forEach((label, index) => {
+                label.addEventListener('mouseenter', function() {
+                    for (let i = ratingLabels.length - 1; i >= ratingLabels.length - index - 1; i--) {
+                        ratingLabels[i].style.color = '#ffd700';
+                    }
+                });
+        
+                label.addEventListener('mouseleave', function() {
+                    const checked = modal.querySelector('input[name="rating"]:checked');
+                    if (checked) {
+                        const checkedIndex = Array.from(ratingInputs).indexOf(checked);
+                        ratingLabels.forEach((l, i) => {
+                            l.style.color = i >= ratingInputs.length - checkedIndex - 1 ? '#ffd700' : '#ddd';
+                        });
+                    } else {
+                        ratingLabels.forEach(l => l.style.color = '#ddd');
+                    }
+                });
+            });
+    
+            // 画像プレビュー
+            const imageInput = modal.querySelector('#imageInput');
+            const previewImage = modal.querySelector('#previewImage');
+    
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.style.display = 'none';
+                }
+            });
+    
+            // フォーム送信
+            const form = modal.querySelector('#reviewForm');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+        
+                // 隠しフィールドから place_id を取得
+                const hiddenPlaceId = modal.querySelector('#placeIdHidden').value;
+                console.log('📝 フォーム送信 place_id:', hiddenPlaceId); // ← デバッグ用
+        
+                const formData = new FormData();
+                formData.append('place_id', hiddenPlaceId);
+                formData.append('author_name', modal.querySelector('#authorName').value);
+                formData.append('content', modal.querySelector('#content').value);
+                formData.append('rating', modal.querySelector('input[name="rating"]:checked').value);
+        
+                const imageFile = modal.querySelector('#imageInput').files[0];
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                }
+        
+                // デバッグ用：送信内容を確認
+                console.log('📤 送信データ:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}:`, value);
+                }
+        
+                const messageDiv = modal.querySelector('#formMessage');
+                messageDiv.innerHTML = '<div style="text-align: center; color: #667eea;">投稿中...</div>';
+        
+                try {
+                    const response = await fetch(`${API_URL}/reviews`, {
+                    method: 'POST',
+                    body: formData
+                    });
+            
+                    const data = await response.json();
+            
+                    if (response.ok) {
+                        messageDiv.innerHTML = '<div style="padding: 10px; background: #d4edda; color: #155724; border-radius: 8px; text-align: center;">口コミを投稿しました！</div>';
+                        setTimeout(() => {
+                            closePlaceModal();
+                            setTimeout(() => showReviews(hiddenPlaceId, placeName), 100);
+                        }, 1500);
+                    } else {
+                        messageDiv.innerHTML = `<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">${data.error || '投稿に失敗しました'}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    messageDiv.innerHTML = '<div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 8px; text-align: center;">サーバーに接続できませんでした。</div>';
+                }
+            });
+    
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            });
+        }
+        
+        function findPlaceById(placeId) {
+            let foundPlace = null;
+            Object.values(samplePlaces).forEach(categoryPlaces => {
+                categoryPlaces.forEach(place => {
+                    if (place.id === placeId) {
+                        foundPlace = place;
+                    }
+                });
+            });
+            
+            if (foundPlace) {
+                showPlaceModal(foundPlace);
+            }
+        }
+        
+        function selectPlace(name, category) {
+            const categoryNames = {
+                gyoza: '餃子',
+                cocktail: 'カクテル', 
+                jazz: 'ジャズ'
+            };
+            
+            closePlaceModal();
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: white; padding: 30px; border-radius: 20px;
+                text-align: center; max-width: 90%; width: 350px;
+                z-index: 10000; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            `;
+            
+            notification.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
+                <h2 style="margin-bottom: 10px; color: #667eea;">決定しました！</h2>
+                <p style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">
+                    ${name}<br>
+                    <span style="color: #666; font-size: 14px;">${categoryNames[category]}体験</span>
+                </p>
+                <div style="margin-bottom: 20px; padding: 12px; background: #f8f9fa; border-radius: 10px; font-size: 13px; color: #555; line-height: 1.4;">
+                    ✓ ナビゲーション開始<br>
+                    ✓ 現在の混雑状況を継続監視<br>
+                    ✓ 関連スポットも提案します
+                </div>
+                <button onclick="this.closest('div').remove()" style="
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white; border: none; padding: 12px 25px;
+                    border-radius: 25px; font-weight: 600; cursor: pointer;
+                    transition: transform 0.2s ease; width: 100%;
+                ">
+                    宇都宮を楽しもう！
+                </button>
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes popIn {
+                    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+                    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'popOut 0.3s ease forwards';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 4000);
+        }
+        
+        function showDetails(name, category) {
+            const categoryNames = {
+                gyoza: '餃子',
+                cocktail: 'カクテル',
+                jazz: 'ジャズ'
+            };
+            
+            closePlaceModal();
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 style="margin: 0; color: #333; font-size: 18px;">📋 ${name} の詳細情報</h2>
+                        <button class="modal-close" onclick="closePlaceModal()" aria-label="詳細情報を閉じる">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; margin-bottom: 10px; color: #333;">🏪 店舗詳細</h3>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; font-size: 14px; line-height: 1.6;">
+                                • カテゴリー: ${categoryNames[category]}<br>
+                                • 営業時間: 18:00〜24:00 (月〜土)<br>
+                                • 電話番号: 028-XXX-XXXX<br>
+                                • 座席数: カウンター12席、テーブル20席<br>
+                                • 禁煙・喫煙: 完全禁煙<br>
+                                • 支払い: 現金、各種カード、電子マネー
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; margin-bottom: 10px; color: #333;">🎯 特徴・こだわり</h3>
+                            <div style="background: #fff8e1; padding: 15px; border-radius: 10px; font-size: 14px; line-height: 1.6;">
+                                創業から受け継がれる伝統的な${categoryNames[category]}づくりと、
+                                現代的なアレンジを融合した独自のスタイル。
+                                地元の食材にこだわり、職人の技術が光る一品一品を提供。
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button onclick="selectPlace('${name}', '${category}');" style="
+                                flex: 1; background: linear-gradient(135deg, #667eea, #764ba2);
+                                color: white; border: none; padding: 12px;
+                                border-radius: 8px; font-weight: 600; cursor: pointer;
+                            ">この場所に決定</button>
+                            <button onclick="closePlaceModal()" style="
+                                background: #e2e8f0; color: #4a5568; border: none;
+                                padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;
+                            ">閉じる</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            currentModal = modal;
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePlaceModal();
+                }
+            });
+        }
+        
+        function zoomIn() {
+            map.zoomIn();
+            showToast('🔍 拡大しました');
+        }
+
+        function zoomOut() {
+            map.zoomOut();
+            showToast('🔍 縮小しました');
+        }
+
+        function resetView() {
+            map.setView([36.5579, 139.8984], 14);
+            showToast('🏠 表示をリセットしました');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('ja-JP', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        let touchStartY = 0;
+        let touchStartX = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (currentModal) {
+                const touchY = e.touches[0].clientY;
+                const touchX = e.touches[0].clientX;
+                const diffY = touchStartY - touchY;
+                const diffX = touchStartX - touchX;
+                
+                if (diffY < -100 && Math.abs(diffX) < 50) {
+                    closePlaceModal();
+                }
+            }
+        });
+        
+        function optimizeForMobile() {
+            if (window.innerWidth <= 768) {
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach((particle, index) => {
+                    if (index % 2 === 0) {
+                        particle.remove();
+                    }
+                });
+            }
+            
+            const map = document.getElementById('map');
+            map.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+        }
+        
+        window.addEventListener('load', () => {
+            optimizeForMobile();
+            
+            window.addEventListener('resize', () => {
+                optimizeForMobile();
+            });
+        });
+        
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes popOut {
+                0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            }
+            
+            .modal-content {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            @media (max-width: 768px) {
+                .map-pin {
+                    padding: 5px;
+                }
+                
+                .category-filter-btn,
+                .map-control-btn,
+                .settings-toggle {
+                    min-height: 44px;
+                    min-width: 44px;
+                }
+                
+                .btn-primary,
+                .btn-secondary,
+                .quick-action-btn {
+                    min-height: 44px;
+                    font-size: 16px;
+                }
+            }
+        `;
+        document.head.appendChild(additionalStyles);
+        
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // ルートモード切り替え
+        function toggleRouteMode() {
+            isRouteMode = !isRouteMode;
+            const routePanel = document.getElementById('routePanel');
+    
+            if (isRouteMode) {
+                routePanel.classList.add('active');
+                showToast('🗺️ ルート作成モード: 訪問したい場所をタップしてください');
+            } else {
+                routePanel.classList.remove('active');
+                clearRouteSelection();
+                showToast('通常モードに戻りました');
+            }
+        }
+
+        // 場所をルートに追加/削除
+        function togglePlaceSelection(place) {
+            const index = selectedPlacesForRoute.findIndex(p => p.id === place.id);
+    
+            if (index === -1) {
+                selectedPlacesForRoute.push(place);
+                showToast(`📍 ${place.name}を追加しました`);
+            } else {
+                selectedPlacesForRoute.splice(index, 1);
+                showToast(`❌ ${place.name}を削除しました`);
+            }
+    
+            updateSelectedPlacesDisplay();
+        }
+
+        // 選択された場所の表示を更新
+        function updateSelectedPlacesDisplay() {
+            const container = document.getElementById('selectedPlaces');
+    
+            if (selectedPlacesForRoute.length === 0) {
+                container.innerHTML = '<small style="color: #999;">場所を選択してください</small>';
+                return;
+            }
+    
+            container.innerHTML = selectedPlacesForRoute.map(place => `
+                <div class="selected-place-tag">
+                    ${place.name}
+                <button onclick="removeFromRoute('${place.id}')">x</button>
+                </div>
+            `).join('');
+        }
+
+        // ルートから削除
+        function removeFromRoute(placeId) {
+            selectedPlacesForRoute = selectedPlacesForRoute.filter(p => p.id !== placeId);
+            updateSelectedPlacesDisplay();
+        }
+
+        // 最適ルートを作成
+        function createOptimalRoute() {
+            if (selectedPlacesForRoute.length < 2) {
+                showToast('⚠️ 2箇所以上選択してください');
+                return;
+            }
+
+            // 既存のルートを削除
+            if (routeControl) {
+                map.removeControl(routeControl);
+            }
+
+            // 最適な順序を計算（最近傍法による簡易TSP）
+            const optimizedRoute = optimizeRouteOrder(selectedPlacesForRoute);
+
+            // ルートの座標配列を作成
+            const waypoints = optimizedRoute.map(place => 
+                L.latLng(place.lat, place.lng)
+            );
+
+            // Leaflet Routing Machineでルートを表示
+            routeControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false,
+                addWaypoints: false,
+                draggableWaypoints: false,
+                fitSelectedRoutes: true,
+                showAlternatives: false,
+                lineOptions: {
+                    styles: [
+                        {color: '#667eea', opacity: 0.8, weight: 6}
+                    ]
+                },
+                createMarker: function() { return null; }, // マーカーは既存のものを使用
+                router: L.Routing.osrmv1({
+                    serviceUrl: 'https://router.project-osrm.org/route/v1',
+                    profile: 'foot' // 徒歩ルート
+                })
+            }).addTo(map);
+
+            showToast(`✅ ${optimizedRoute.length}箇所の最適ルートを作成しました！`);
+    
+            // ルートモードを終了
+            isRouteMode = false;
+            document.getElementById('routePanel').classList.remove('active');
+        }
+
+        // 最適な訪問順序を計算（最近傍法）
+        function optimizeRouteOrder(places) {
+            if (places.length <= 2) return places;
+
+            const result = [places[0]];
+            const remaining = places.slice(1);
+
+            while (remaining.length > 0) {
+                const current = result[result.length - 1];
+                let nearestIndex = 0;
+                let nearestDistance = Infinity;
+
+                remaining.forEach((place, index) => {
+                    const distance = calculateDistance(
+                        current.lat, current.lng,
+                        place.lat, place.lng
+                    );
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestIndex = index;
+                    }
+                });
+
+                result.push(remaining[nearestIndex]);
+                remaining.splice(nearestIndex, 1);
+            }
+
+            return result;
+        }
+
+        // 2点間の距離を計算（ヒュベニの公式）
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // 地球の半径 (km)
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                     Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // ルート選択をクリア
+        function clearRouteSelection() {
+            selectedPlacesForRoute = [];
+            updateSelectedPlacesDisplay();
+    
+            if (routeControl) {
+                map.removeControl(routeControl);
+                routeControl = null;
+            }
+    
+            showToast('🗑️ ルートをクリアしました');
+        }
+
+        // トースト通知
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+                background: rgba(0,0,0,0.8); color: white; padding: 10px 20px;
+                border-radius: 20px; font-size: 14px; z-index: 10000;
+                animation: toastSlide 2s ease forwards;
+            `;
+            toast.textContent = message;
+    
+            // アニメーションスタイルを一度だけ追加
+            if (!document.querySelector('style[data-toast]')) {
+                const style = document.createElement('style');
+                style.setAttribute('data-toast', 'true');
+                style.textContent = `
+                   @keyframes toastSlide {
+                        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                        20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+    
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // ============================================
+        // AIチャット機能
+        // ============================================
+
+        let chatState = {
+            step: 0,
+            selectedCategories: [],
+            selectedTime: '',
+            selectedPurpose: '',
+            messages: []
+        };
+
+        // チャットモーダルを開く
+        function openAIChat() {
+            // 状態をリセット
+            chatState = {
+                step: 0,
+                selectedCategories: [],
+                selectedTime: '',
+                selectedPurpose: '',
+                messages: []
+            };
+    
+            // モーダルを作成
+            const modal = document.createElement('div');
+            modal.className = 'ai-chat-modal';
+            modal.id = 'aiChatModal';
+    
+            modal.innerHTML = `
+                <div class="ai-chat-container">
+                    <div class="ai-chat-header">
+                        <h3>ウツネーター</h3>
+                        <button class="ai-chat-close" onclick="closeAIChat()">×</button>
+                    </div>
+                    <div class="ai-chat-messages" id="aiChatMessages"></div>
+                </div>
+            `;
+    
+            document.body.appendChild(modal);
+    
+            // 背景クリックで閉じる
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeAIChat();
+                }
+            });
+    
+            // 最初のメッセージ
+            setTimeout(() => {
+                addAIMessage(appConfig.ai.greeting);
+                setTimeout(() => {
+                    addAIMessage(appConfig.ai.description);
+                    setTimeout(() => {
+                        askCategories();
+                    }, 800);
+                }, 800);
+            }, 300);
+
+        }
+
+        // チャットを閉じる
+        function closeAIChat() {
+            const modal = document.getElementById('aiChatModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // AIメッセージを追加
+        function addAIMessage(text, showOptions = false, options = []) {
+            const container = document.getElementById('aiChatMessages');
+    
+            // タイピングアニメーション
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'ai-message';
+            typingDiv.innerHTML = `
+                <div class="ai-typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+    
+            // 実際のメッセージ
+            setTimeout(() => {
+                typingDiv.remove();
+        
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'ai-message';
+                messageDiv.textContent = text;
+        
+                if (showOptions && options.length > 0) {
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'ai-chat-options';
+            
+                    options.forEach(option => {
+                        const btn = document.createElement('button');
+                        btn.className = 'ai-option-btn';
+                        btn.textContent = option.text;
+                        btn.onclick = option.action;
+                        optionsDiv.appendChild(btn);
+                    });
+            
+                    messageDiv.appendChild(optionsDiv);
+                }
+        
+                container.appendChild(messageDiv);
+                container.scrollTop = container.scrollHeight;
+        
+                chatState.messages.push({ role: 'ai', text });
+            }, 1000);
+        }
+
+        // ユーザーメッセージを追加
+        function addUserMessage(text) {
+            const container = document.getElementById('aiChatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'user-message';
+            messageDiv.textContent = text;
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+    
+            chatState.messages.push({ role: 'user', text });
+        }
+
+        // ステップ1: カテゴリを聞く
+        function askCategories() {
+            const options = appConfig.categories.map(cat => ({
+                text: `${cat.emoji} ${cat.name}`,
+                action: () => selectCategory(cat.id)
+            }));
+    
+            options.push({
+                text: '✨ 全部楽しみたい!',
+                action: () => selectCategory('all')
+            });
+    
+            addAIMessage(appConfig.ai.categoryPrompt, true, options);
+        }
+
+        function selectCategory(category) {
+            const categoryNames = {
+                'gyoza': '🥟 餃子',
+                'cocktail': '🍸 カクテル',
+                'jazz': '🎷 ジャズ',
+                'all': '✨ 全部'
+            };
+    
+            addUserMessage(categoryNames[category]);
+    
+            if (category === 'all') {
+                chatState.selectedCategories = ['gyoza', 'cocktail', 'jazz'];
+            } else {
+                chatState.selectedCategories = [category];
+            }
+    
+            setTimeout(() => {
+                addAIMessage('いいですね! 👍');
+                setTimeout(() => {
+                    askTime();
+                }, 800);
+            }, 500);
+        }
+
+        // ステップ2: 時間を聞く
+        function askTime() {
+            addAIMessage('どのくらい時間がありますか?', true, [
+                { text: '⏱️ 30分〜1時間', action: () => selectTime('30分〜1時間') },
+                { text: '⏱️ 1〜2時間', action: () => selectTime('1〜2時間') },
+                { text: '⏱️ 2〜3時間', action: () => selectTime('2〜3時間') },
+                { text: '⏱️ 3時間以上', action: () => selectTime('3時間以上') }
+            ]);
+        }
+
+        function selectTime(time) {
+            addUserMessage(time);
+            chatState.selectedTime = time;
+    
+            setTimeout(() => {
+                addAIMessage('承知しました! 📝');
+                setTimeout(() => {
+                    askPurpose();
+                }, 800);
+            }, 500);
+        }
+
+        // ステップ3: 目的を聞く
+        function askPurpose() {
+            addAIMessage('どんなシチュエーションですか?', true, [
+                { text: '💼 出張・仕事帰り', action: () => selectPurpose('出張・仕事帰り') },
+                { text: '🚗 日帰り観光', action: () => selectPurpose('日帰り観光') },
+                { text: '🚆 乗り継ぎ・通過', action: () => selectPurpose('乗り継ぎ・通過') },
+                { text: '🏠 地元での時間つぶし', action: () => selectPurpose('地元での時間つぶし') }
+            ]);
+        }
+
+        function selectPurpose(purpose) {
+            addUserMessage(purpose);
+            chatState.selectedPurpose = purpose;
+    
+            setTimeout(() => {
+                addAIMessage('分かりました! 最適なルートを作成します... 🔍');
+                setTimeout(() => {
+                    generateAIRoute();
+                }, 1500);
+            }, 500);
+        }
+
+        // ルートを生成
+        function generateAIRoute() {
+            const { selectedCategories, selectedTime, selectedPurpose } = chatState;
+    
+            // ルール判定ロジック
+            let recommendedPlaces = [];
+            let routeMessage = '';
+    
+            // 時間に応じた店舗数を決定
+            let maxPlaces = 1;
+            if (selectedTime === '1〜2時間') maxPlaces = 2;
+            if (selectedTime === '2〜3時間') maxPlaces = 3;
+            if (selectedTime === '3時間以上') maxPlaces = 4;
+    
+            // カテゴリごとに最適な店舗を選択
+            selectedCategories.forEach((category, index) => {
+                if (index < maxPlaces) {
+                    const place = findBestPlaceForAI(category, selectedPurpose);
+                    if (place) {
+                        recommendedPlaces.push(place);
+                    }
+                }
+            });
+    
+            // メッセージ生成
+            if (recommendedPlaces.length === 0) {
+                routeMessage = '申し訳ありません。現在おすすめできる店舗が見つかりませんでした 😢';
+            } else {
+                routeMessage = `完璧なルートができました! 🎉\n\n${recommendedPlaces.map((p, i) => 
+                    `${i + 1}. ${p.name} (${p.specialty})`
+                ).join('\n')}`;
+            }
+    
+            addAIMessage(routeMessage);
+    
+            if (recommendedPlaces.length > 0) {
+                setTimeout(() => {
+                    showAIRoutePreview(recommendedPlaces);
+                }, 1000);
+            }
+        }
+
+        // AIルート判定用の店舗検索（カスタマイズ版）
+        function findBestPlaceForAI(category, purpose) {
+            const places = placesData.filter(p => p.category === category);
+    
+            // 混雑している店は除外
+            const availablePlaces = places.filter(p => p.status !== 'busy');
+    
+            if (availablePlaces.length === 0) {
+                // 空いている店がない場合は全体から選ぶ
+                return places.sort((a, b) => b.rating - a.rating)[0];
+            }
+    
+            // 目的別の重み付け設定
+            const weights = {
+                '出張・仕事帰り': { 
+                    distance: 0.7,  // 距離を重視 (近い店優先)
+                    rating: 0.3     // 評価は参考程度
+                },
+                '日帰り観光': { 
+                    distance: 0.3,  // 距離はあまり気にしない
+                    rating: 0.7     // 評価の高い店優先
+                },
+                '乗り継ぎ・通過': { 
+                    distance: 0.9,  // とにかく近い店
+                    rating: 0.1     // 評価は二の次
+                },
+                '地元での時間つぶし': { 
+                    distance: 0.5,  // バランス型
+                    rating: 0.5 
+                }
+            };
+    
+            // 選択された目的に対応する重みを取得
+            const weight = weights[purpose] || { distance: 0.5, rating: 0.5 };
+    
+            // ユーザーの現在地を取得（取得できない場合は宇都宮駅を使用）
+            const userLat = userLocation ? userLocation.lat : 36.5579;
+            const userLng = userLocation ? userLocation.lng : 139.8984;
+    
+            // 各店舗にスコアを付ける
+            const scoredPlaces = availablePlaces.map(place => {
+                // 距離を計算 (km)
+                const distance = calculateDistance(userLat, userLng, place.lat, place.lng);
+        
+                // 距離スコア: 近いほど高得点 (最大10点)
+                // 1km以内 = 10点、5km以上 = 0点
+                const distanceScore = Math.max(0, 10 - (distance * 2));
+        
+                // 評価スコア: 5段階評価を10点満点に変換
+                const ratingScore = (place.rating / 5) * 10;
+        
+                // 重み付け合計スコアを計算
+                const totalScore = 
+                    (weight.distance * distanceScore) + 
+                    (weight.rating * ratingScore);
+        
+                return {
+                    ...place,
+                    distance: distance,
+                    distanceScore: distanceScore,
+                    ratingScore: ratingScore,
+                    totalScore: totalScore
+                };
+            });
+    
+            // スコアが高い順にソート
+            scoredPlaces.sort((a, b) => b.totalScore - a.totalScore);
+    
+            // デバッグ用: 上位3店舗のスコアを表示
+            console.log(`🤖 ${category} のおすすめ店舗 (目的: ${purpose})`);
+            scoredPlaces.slice(0, 3).forEach((p, i) => {
+                console.log(`${i + 1}. ${p.name}`);
+                console.log(`   距離: ${p.distance.toFixed(2)}km (${p.distanceScore.toFixed(1)}点)`);
+                console.log(`   評価: ${p.rating} (${p.ratingScore.toFixed(1)}点)`);
+                console.log(`   総合: ${p.totalScore.toFixed(1)}点`);
+            });
+    
+            // 最もスコアが高い店舗を返す
+            return scoredPlaces[0];
+        }
+
+        // ルートプレビューを表示
+        function showAIRoutePreview(places) {
+            addAIMessage('このルートで出発しますか?', true, [
+                { text: '🚀 このルートで出発!', action: () => startAIRoute(places) },
+                { text: '🔄 もう一度相談する', action: () => { closeAIChat(); setTimeout(openAIChat, 300); } },
+                { text: '❌ やめる', action: () => closeAIChat() }
+            ]);
+        }
+
+        // AIルートを実行
+        function startAIRoute(places) {
+            addUserMessage('このルートで出発!');
+    
+            setTimeout(() => {
+                addAIMessage('素敵な宇都宮観光をお楽しみください! 🎉✨');
+        
+                setTimeout(() => {
+                    // 既存のルート機能と連携
+                    closeAIChat();
+            
+                    // 選択された店舗をルートモードに設定
+                    selectedPlacesForRoute = places;
+                    isRouteMode = true;
+                    document.getElementById('routePanel').classList.add('active');
+                    updateSelectedPlacesDisplay();
+            
+                    // 地図を最初の店舗に移動
+                    if (places[0]) {
+                        map.setView([places[0].lat, places[0].lng], 15);
+                    }
+            
+                    showToast('🤖 AIが提案したルートを表示しました!');
+                }, 1500);
+            }, 500);
+        }
+        // ============================================
+        // 背景テーマ変更機能（グローバル関数）
+        // ============================================
+
+        const THEME_GRADIENTS = {
+            ocean: 'linear-gradient(to left, #ffd89b 0%, #19547b 100%)',
+            sunset: 'linear-gradient(to left, #7084a5, #ada6be, #d4b0b5)',
+            forest: 'linear-gradient(to left, #2f7f29, #549854, #a5caa7)',
+            night: 'linear-gradient(to left, #5c658b, #1c2c52, #051637)'
+        };
+
+        // テーマ変更関数
+        function changeThemeColor(themeName) {
+            const gradient = THEME_GRADIENTS[themeName] || THEME_GRADIENTS.default;
+            document.body.style.background = gradient;
+            localStorage.setItem('utsunomiya_theme', themeName);
+            showToast('🎨 テーマを変更しました');
+        }
+
+        // リセット関数
+        function resetThemeColor() {
+            document.body.style.background = THEME_GRADIENTS.default;
+            localStorage.removeItem('utsunomiya_theme');
+            showToast('🔄 デフォルトに戻しました');
+            }
+
+        // ページ読み込み時にテーマを復元
+        window.addEventListener('load', function() {
+            const savedTheme = localStorage.getItem('utsunomiya_theme');
+            if (savedTheme && THEME_GRADIENTS[savedTheme]) {
+                document.body.style.background = THEME_GRADIENTS[savedTheme];
+            }
+        });
+
+    </script>
+</body>
+</html>

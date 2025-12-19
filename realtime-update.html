@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗情報更新システム - UtsunomiYa Quick Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .category-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .category-btn {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .category-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .store-card {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .store-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .store-card.selected {
+            background: #667eea;
+            color: white;
+            border-color: transparent;
+        }
+        
+        .update-form {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .update-form.active {
+            display: grid;
+            gap: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .status-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .status-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .status-option:hover {
+            border-color: #667eea;
+        }
+        
+        .status-option.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .status-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .social-accounts {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .social-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .twitter { background: #1DA1F2; color: white; }
+        .instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); color: white; }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: slideIn 0.3s ease;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .message.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .preview-section {
+            background: #fff8e1;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .preview-section h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .preview-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            .category-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>店舗情報更新システム</h1>
+            <p>カテゴリ → 店舗 → 情報更新</p>
+        </div>
+        
+        <div class="content">
+            <!-- ステップ1: カテゴリ選択 -->
+            <div id="step1">
+                <h2 style="margin-bottom: 20px;">ステップ1: カテゴリを選択</h2>
+                <div class="category-selector">
+                    <div class="category-btn" onclick="selectCategory('gyoza')">
+                        <div class="category-icon">🥟</div>
+                        <div>餃子</div>
+                    </div>
+                    <div class="category-btn" onclick="selectCategory('cocktail')">
+                        <div class="category-icon">🍸</div>
+                        <div>カクテル</div>
+                    </div>
+                    <div class="category-btn" onclick="selectCategory('jazz')">
+                        <div class="category-icon">🎷</div>
+                        <div>ジャズ</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ステップ2: 店舗選択 -->
+            <div id="step2" style="display: none;">
+                <h2 style="margin-bottom: 20px;">ステップ2: 店舗を選択</h2>
+                <div id="storeGrid" class="store-grid"></div>
+            </div>
+            
+            <!-- ステップ3: 情報更新 -->
+            <form id="updateForm" class="update-form" onsubmit="updateStoreInfo(event)">
+                <input type="hidden" id="selectedStoreId">
+                <input type="hidden" id="selectedCategory">
+                
+                <h2 style="margin-bottom: 20px;">ステップ3: 情報を更新</h2>
+                
+                <!-- 営業情報 -->
+                <div class="form-section">
+                    <h3>🕒 営業情報</h3>
+                    
+                    <div class="form-group">
+                        <label>営業ステータス</label>
+                        <div class="status-selector">
+                            <div class="status-option" onclick="selectStatus('available')">
+                                <div class="status-icon">🟢</div>
+                                <div>空席あり</div>
+                            </div>
+                            <div class="status-option" onclick="selectStatus('normal')">
+                                <div class="status-icon">🟡</div>
+                                <div>普通</div>
+                            </div>
+                            <div class="status-option" onclick="selectStatus('busy')">
+                                <div class="status-icon">🔴</div>
+                                <div>混雑中</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="statusInput" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>待ち時間（分）</label>
+                        <input type="number" id="waitTime" min="0" placeholder="例: 15" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>現在の混雑度（%）</label>
+                        <input type="range" id="crowdLevel" min="0" max="100" value="50" 
+                               oninput="updateCrowdDisplay()">
+                        <div style="text-align: center; font-weight: 600; color: #667eea;">
+                            <span id="crowdValue">50%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>営業時間（今日）</label>
+                        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;">
+                            <input type="time" id="openTime" required>
+                            <span style="text-align: center;">〜</span>
+                            <input type="time" id="closeTime" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>本日の特別情報</label>
+                        <textarea id="specialInfo" placeholder="例: 本日のライブ19:30〜、カウンター席空きあり"></textarea>
+                    </div>
+                </div>
+                
+                <!-- SNS連携 -->
+                <div class="form-section">
+                    <h3>📱 SNS連携設定</h3>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                        SNSアカウントを登録すると、最新の投稿が店舗ページに自動表示されます
+                    </p>
+                    
+                    <div class="social-accounts">
+                        <div class="social-input">
+                            <div class="social-icon twitter">𝕏</div>
+                            <input type="text" id="twitterAccount" 
+                                   placeholder="@をつけずに入力（例: minmin_gyoza）"
+                                   style="flex: 1;">
+                        </div>
+                        
+                        <div class="social-input">
+                            <div class="social-icon instagram">📷</div>
+                            <input type="text" id="instagramAccount" 
+                                   placeholder="@をつけずに入力（例: minmin_utsunomiya）"
+                                   style="flex: 1;">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; padding: 12px; background: #e3f2fd; border-radius: 8px; font-size: 13px;">
+                        💡 <strong>ヒント:</strong> アカウント名を登録すると、そのアカウントの最新投稿が店舗詳細ページに表示されます
+                    </div>
+                </div>
+                
+                <!-- プレビュー -->
+                <div class="preview-section">
+                    <h4>👁️ 更新内容プレビュー</h4>
+                    <div class="preview-info" id="previewContent">
+                        情報を入力すると、ここにプレビューが表示されます
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary">情報を更新して地図に反映</button>
+                <button type="button" class="btn-secondary" onclick="resetForm()">🔄 最初からやり直す</button>
+            </form>
+            
+            <div id="updateMessage" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+        let allStores = [];
+        let selectedStore = null;
+        
+        // ページ読み込み時に全店舗を取得
+        async function loadAllStores() {
+            try {
+                const response = await fetch(`${API_URL}/places`);
+                allStores = await response.json();
+                console.log('全店舗読み込み完了:', allStores.length);
+            } catch (error) {
+                console.error('店舗データ読み込みエラー:', error);
+            }
+        }
+        
+        // カテゴリ選択
+        function selectCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // そのカテゴリの店舗を表示
+            showStores(category);
+            document.getElementById('step2').style.display = 'block';
+            document.getElementById('updateForm').classList.remove('active');
+        }
+        
+        // 店舗一覧を表示
+        function showStores(category) {
+            const stores = allStores.filter(s => s.category === category);
+            const grid = document.getElementById('storeGrid');
+            
+            grid.innerHTML = stores.map(store => `
+                <div class="store-card" onclick="selectStore('${store.id}', '${category}')">
+                    <div style="font-weight: 600; margin-bottom: 5px;">${store.name}</div>
+                    <div style="font-size: 12px; color: #666;">${store.address || '住所未登録'}</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 5px;">
+                        ${store.last_updated ? '最終更新: ' + new Date(store.last_updated).toLocaleString('ja-JP') : '未更新'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 店舗選択
+        async function selectStore(storeId, category) {
+            document.querySelectorAll('.store-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // 選択した店舗の情報を読み込む
+            selectedStore = allStores.find(s => s.id === storeId);
+            document.getElementById('selectedStoreId').value = storeId;
+            document.getElementById('selectedCategory').value = category;
+            
+            // フォームに既存の情報を入力
+            if (selectedStore) {
+                document.getElementById('waitTime').value = 0;
+                document.getElementById('crowdLevel').value = 50;
+                document.getElementById('specialInfo').value = selectedStore.realtime_info || '';
+                document.getElementById('twitterAccount').value = selectedStore.twitter_account || '';
+                document.getElementById('instagramAccount').value = selectedStore.instagram_account || '';
+                
+                if (selectedStore.status) {
+                    selectStatus(selectedStore.status);
+                }
+                
+                updateCrowdDisplay();
+            }
+            
+            // フォーム表示
+            document.getElementById('updateForm').classList.add('active');
+            document.getElementById('updateForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ステータス選択
+        function selectStatus(status) {
+            document.querySelectorAll('.status-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // イベントから呼ばれた場合
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('selected');
+            } else {
+                // 直接呼ばれた場合
+                const options = document.querySelectorAll('.status-option');
+                if (status === 'available') options[0].classList.add('selected');
+                if (status === 'normal') options[1].classList.add('selected');
+                if (status === 'busy') options[2].classList.add('selected');
+            }
+            
+            document.getElementById('statusInput').value = status;
+            updatePreview();
+        }
+        
+        // 混雑度表示更新
+        function updateCrowdDisplay() {
+            const value = document.getElementById('crowdLevel').value;
+            document.getElementById('crowdValue').textContent = value + '%';
+            updatePreview();
+        }
+        
+        // プレビュー更新
+        function updatePreview() {
+            const status = document.getElementById('statusInput').value;
+            const waitTime = document.getElementById('waitTime').value || '0';
+            const crowdLevel = document.getElementById('crowdLevel').value;
+            const specialInfo = document.getElementById('specialInfo').value;
+            
+            const statusText = {
+                'available': '🟢 空席あり',
+                'normal': '🟡 普通',
+                'busy': '🔴 混雑中'
+            };
+            
+            let preview = `
+                <strong>${selectedStore?.name || '店舗名'}</strong><br>
+                ステータス: ${statusText[status] || '未選択'}<br>
+                待ち時間: ${waitTime}分<br>
+                混雑度: ${crowdLevel}%<br>
+            `;
+            
+            if (specialInfo) {
+                preview += `特別情報: ${specialInfo}<br>`;
+            }
+            
+            const twitter = document.getElementById('twitterAccount').value;
+            const instagram = document.getElementById('instagramAccount').value;
+            
+            if (twitter || instagram) {
+                preview += '<br><strong>📱 SNS連携:</strong><br>';
+                if (twitter) preview += `𝕏 @${twitter}<br>`;
+                if (instagram) preview += `📷 @${instagram}<br>`;
+            }
+            
+            document.getElementById('previewContent').innerHTML = preview;
+        }
+        
+        // フォーム送信
+        async function updateStoreInfo(e) {
+            e.preventDefault();
+            
+            const storeId = document.getElementById('selectedStoreId').value;
+            
+            const data = {
+                store_id: storeId,
+                status: document.getElementById('statusInput').value,
+                wait_time: document.getElementById('waitTime').value,
+                crowd_level: document.getElementById('crowdLevel').value,
+                special_info: document.getElementById('specialInfo').value,
+                open_time: document.getElementById('openTime').value,
+                close_time: document.getElementById('closeTime').value,
+                twitter_account: document.getElementById('twitterAccount').value,
+                instagram_account: document.getElementById('instagramAccount').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/store/realtime-update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('✅ 店舗情報を更新しました！地図ページに反映されます。', 'success');
+                    
+                        setTimeout(() => {
+                            location.reload();  // ページをリロードして最初の状態に戻す
+                        }, 2000);
+                } else {
+                    showMessage('❌ ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('通信エラー:', error);
+                showMessage('❌ サーバーに接続できませんでした', 'error');
+            }
+        }
+        
+        // メッセージ表示
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('updateMessage');
+            messageDiv.className = `message ${type} active`;
+            messageDiv.textContent = text;
+            
+            setTimeout(() => {
+                messageDiv.classList.remove('active');
+            }, 5000);
+        }
+        
+        // フォームリセット
+        function resetForm() {
+            location.reload();
+        }
+        
+        // リアルタイムプレビュー更新
+        ['waitTime', 'specialInfo', 'twitterAccount', 'instagramAccount'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', updatePreview);
+            }
+        });
+        
+        // ページ読み込み時
+        loadAllStores();
+    </script>
+</body>
+</html>

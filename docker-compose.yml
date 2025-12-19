@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./data:/app/data
+      - ./reviews.db:/app/reviews.db
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
